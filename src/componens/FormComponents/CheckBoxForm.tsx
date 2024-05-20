@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import checkboxImg from "../../assets/checkboxImg.svg";
 import checkmark from "../../assets/checkedMark.svg";
 
@@ -8,10 +8,6 @@ interface IcheckBox {
   formDataState: Ianswear[];
   idxSubquestions: number;
   idxForm: number;
-}
-interface IAllCosenBOxes {
-  index: number;
-  textValue: string;
 }
 
 // fixa sparning av värden och TS fel som klagara på att den kan vara undefined
@@ -23,18 +19,24 @@ const CheckBoxForm = ({
   idxForm,
 }: IcheckBox) => {
   const [chosenBox, setChosenBox] = useState({
-    idx:
-      formDataState[idxForm]?.subquestions[idxSubquestions].checkBox[index] ===
-      ""
-        ? -1
-        : index,
-    textValue:
-      formDataState[idxForm]?.subquestions[idxSubquestions].checkBox[index] ===
-      ""
-        ? ""
-        : formDataState[idxForm]?.subquestions[idxSubquestions].checkBox[index],
+    idx: -1,
+    textValue: "",
   });
-  const [allChosenBoxes, setAllChosenBoxes] = useState<IAllCosenBOxes[]>([]);
+  let updatedIndex;
+  useEffect(() => {
+    const checkBoxValue =
+      formDataState?.[idxForm]?.subquestions?.[idxSubquestions]?.checkBox?.[
+        index
+      ];
+    updatedIndex = checkBoxValue !== "" ? index : -1;
+    const updatedTextValue =
+      checkBoxValue !== "" && checkBoxValue !== undefined ? checkBoxValue : "";
+
+    setChosenBox({
+      idx: updatedIndex,
+      textValue: updatedTextValue,
+    });
+  }, [formDataState, idxForm, idxSubquestions, index]);
 
   return (
     <div className="flex ml-5 mb-5 items-center mt-5 relative">
@@ -67,11 +69,7 @@ const CheckBoxForm = ({
         value={checkBox}
         name=""
         id=""
-        defaultChecked={
-          formDataState[idxForm]?.subquestions[idxSubquestions].checkBox[
-            index
-          ] !== ""
-        }
+        defaultChecked={updatedIndex !== ""}
       />
     </div>
   );

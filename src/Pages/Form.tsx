@@ -34,8 +34,6 @@ const Form = () => {
   const navigate = useNavigate();
 
   const formDataState: Ianswear[] = data.state.formData.formdata.answer;
-  console.log(formDataState);
-  console.log(data.state.formData.formId);
 
   return (
     <div className="flex flex-col max-w-[1500px] bg-[#F5F5F5] relative ">
@@ -99,6 +97,7 @@ const Form = () => {
                       type={question.qustion}
                       data={feelingsList}
                       formDataState={formDataState}
+                      idxForm={idxForm}
                     />
                   )}
                   {subquestion.checkBox &&

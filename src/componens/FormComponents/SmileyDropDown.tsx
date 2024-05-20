@@ -33,7 +33,7 @@ const DropDown = ({ value, type, data, formDataState, idxForm }: Itext) => {
     }
 
     setChosenSmiley(smiley[0]);
-  }, []);
+  }, [formDataState, idxForm]);
 
   return (
     <div className="ml-4 mr-4 mb-5 mt-5">

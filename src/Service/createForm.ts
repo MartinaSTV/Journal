@@ -124,7 +124,7 @@ const getForms = async (
   }
 };
 
-const saveForms = async (formData: IresponseForm) => {
+const saveForms = async (formData: any) => {
   try {
     await addDoc(collection(db, "JournalForm"), formData);
     console.log("added form to db");

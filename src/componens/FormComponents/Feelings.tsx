@@ -11,7 +11,7 @@ interface IfeelingsProps {
 }
 
 const Feelings = ({ formDataState, idxForm }: IfeelingsProps) => {
-  const [chosenFeeling, setChoseFeeling] = useState({ feeling: "", idx: -1 });
+  const [chosenFeeling, setChoseFeeling] = useState({ feelingC: "", idx: -1 });
   const smileys = [
     { img: Happy, text: "Glad", color: "border-[#0FBD7E]" },
     { img: Sad, text: "Ledsen", color: "border-[#0F69BD] border-opacity-50" },
@@ -21,37 +21,40 @@ const Feelings = ({ formDataState, idxForm }: IfeelingsProps) => {
   ];
 
   useEffect(() => {
-    const Feeling = [];
-    for (let i = 0; i < smileys.length; i++) {
-      if (smileys[i].text === formDataState[idxForm].qustion.qustion) {
-        const choseExist = {
-          feeling: smileys[i].text,
-          idx: smileys[i],
-        };
-        Feeling.push(choseExist);
+    if (
+      formDataState &&
+      formDataState[idxForm] &&
+      formDataState[idxForm].qustion
+    ) {
+      let foundFeeling = null;
+      for (let i = 0; i < smileys.length; i++) {
+        if (smileys[i].text === formDataState[idxForm].qustion) {
+          foundFeeling = { feelingC: smileys[i].text, idx: i };
+          break;
+        }
+      }
+
+      if (foundFeeling) {
+        setChoseFeeling(foundFeeling);
       }
     }
-
-    if (Feeling.length > 0) {
-      setChoseFeeling(Feeling[0]);
-    }
-  }, []);
+  }, [formDataState, idxForm]);
 
   return (
     <button className="flex justify-around mt-5 mb-10 md:w-[500px]">
       {smileys.map((feeling, idx) => (
         <div
           onClick={() => {
-            setChoseFeeling({ feeling: feeling.text, idx: idx });
+            setChoseFeeling({ feelingC: feeling.text, idx: idx });
           }}
-          className="flex flex-col"
+          className="flex flex-col cursor-pointer"
           key={idx + "feeling"}
         >
           <img
             src={feeling.img}
             alt={feeling.text}
             className={`h-[55px] w-[55px] rounded-full p-2 transition-all ${
-              chosenFeeling.feeling === feeling.text &&
+              chosenFeeling.feelingC === feeling.text &&
               chosenFeeling.idx === idx
                 ? `border-4 ${feeling.color}`
                 : ""
