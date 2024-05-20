@@ -1,8 +1,181 @@
+import Textfields from "../componens/FormComponents/TextFields";
+import CheckBoxForm from "../componens/FormComponents/CheckBoxForm";
+import DropDown from "../componens/FormComponents/SmileyDropDown";
+import { Questions } from "../componens/FormComponents/formQuestions";
+import Feelings from "../componens/FormComponents/Feelings";
+import yellowDateIcon from "../assets/Icons/yellowDate.svg";
+import pinkClock from "../assets/Icons/ph_clock.svg";
+import bgBig from "../../public/bgBig.png";
+import { useState } from "react";
+import { feelingsList } from "../componens/FormComponents/formQuestions";
+import { smileys } from "../componens/FormComponents/formQuestions";
+import MenuBottomBar from "../componens/MenyBottomBar";
+import MenuBig from "../componens/MenyBig";
+import { useLocation } from "react-router-dom";
+import { updateIsFinalised } from "../Service/journalService";
+import { onChangeAuth } from "../Service/LoginService";
+import { useRecoilState } from "recoil";
+import UserAtom from "../atoms/user";
+import { useNavigate } from "react-router-dom";
+
 const Form = () => {
+  const [, setUserId] = useRecoilState(UserAtom);
+  onChangeAuth(setUserId);
+
+  const [value] = useState({
+    text: "Välj här",
+    value: "",
+  });
+  const date = new Date();
+  const todaysDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  const hours = date.getHours();
+  const min = date.getMinutes();
+  const data = useLocation();
+  const navigate = useNavigate();
+
+  const formDataState: Ianswear[] = data.state.formData.formdata.answer;
+  console.log(formDataState);
+  console.log(data.state.formData.formId);
+
   return (
-    <>
-      <h1>Form</h1>
-    </>
+    <div className="flex flex-col max-w-[1500px] bg-[#F5F5F5] relative ">
+      <MenuBig />
+      <div
+        className="flex items-center max-w-[1500px] bg-[#F5F5F5] relative "
+        style={{
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundImage: `url(${bgBig})`,
+          backgroundSize: "cover",
+          height: "140px",
+        }}
+      >
+        <h1 className=" ml-5 text-white text-4xl ">
+          {data.state.formData.formdata.title}
+        </h1>
+      </div>
+      <article className="flex max-w-[800px] mt-5 md:self-center ">
+        <div className="flex mr-auto min-w-[150px] ml-5 md:w-[400px]">
+          <img src={yellowDateIcon} alt="Kaldender" className="mr-2" />
+          <p>{todaysDate}</p>
+        </div>
+        <div className="flex ml-auto mr-5  md:w-[400px]">
+          <img src={pinkClock} alt="Klocka" className="mr-2 ml-auto" />
+          <p>{`${hours}.${min}`}</p>
+        </div>
+      </article>
+      <form
+        className="max-w-[800px] flex flex-col ml-auto mr-auto "
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        {Questions.map((question, idxForm) => (
+          <div className="flex flex-col pt-10 pb-10" key={idxForm + "Form"}>
+            <h2 className="text-xl ml-5 font-medium">{question.qustion}</h2>
+            {question.qustion === "Hur är din ångest/oro nu?" ? (
+              <DropDown
+                value={value}
+                type={question.qustion}
+                data={smileys}
+                formDataState={formDataState}
+                idxForm={idxForm}
+              />
+            ) : (
+              <Feelings formDataState={formDataState} idxForm={idxForm} />
+            )}
+            <section>
+              {question.subquestions?.map((subquestion, idxSubquestions) => (
+                <div className="flex flex-col" key={idxSubquestions}>
+                  <h3
+                    id="subquestionHeader"
+                    className="ml-5 font-medium text-xl"
+                  >
+                    {subquestion.subquestion}
+                  </h3>
+                  {subquestion.subquestion === "Hur stark är din känsla" && (
+                    <DropDown
+                      value={value}
+                      type={question.qustion}
+                      data={feelingsList}
+                      formDataState={formDataState}
+                    />
+                  )}
+                  {subquestion.checkBox &&
+                    subquestion.checkBox.map((checkBox, index) => (
+                      <CheckBoxForm
+                        key={index}
+                        checkBox={checkBox}
+                        index={index}
+                        formDataState={formDataState}
+                        idxSubquestions={idxSubquestions}
+                        idxForm={idxForm}
+                      />
+                    ))}
+                  {
+                    <div className="flex flex-col mb-5">
+                      <label
+                        htmlFor=""
+                        id="subquestionTextField"
+                        className="ml-5 font-medium"
+                      >
+                        {subquestion.textfield}
+                      </label>
+                      {subquestion.textfield ===
+                        "Beskriv med ord varför du känner som du gör?" && (
+                        <textarea
+                          defaultValue={
+                            formDataState[idxForm]?.subquestions[
+                              idxSubquestions
+                            ]?.textfield || ""
+                          }
+                          name=""
+                          id="subquestionTextField"
+                          className="shadow-inner rounded  m-5 h-[165px] p-5"
+                          placeholder="Skriv här"
+                        ></textarea>
+                      )}
+                    </div>
+                  }
+
+                  {subquestion.textfields &&
+                    subquestion.textfields.map((input, idx) => (
+                      <Textfields
+                        key={idx + "input"}
+                        input={input}
+                        formDataState={formDataState}
+                        idx={idx}
+                        idxSubquestions={idxSubquestions}
+                        idxForm={idxForm}
+                      />
+                    ))}
+                </div>
+              ))}
+            </section>
+          </div>
+        ))}
+        <button
+          onClick={async () => {
+            try {
+              await updateIsFinalised(data.state.formData.formId);
+              setTimeout(() => {
+                navigate("/Journal");
+              }, 1000);
+              // visa checkmark att formuläret är färdigt.
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          type="submit"
+          className="bg-black text-2xl mr-auto ml-auto tracking-widest font-bold bg-opacity-65 text-white rounded mb-10 w-[300px] h-[72px]"
+        >
+          Spara/ Klar
+        </button>
+      </form>
+      <section className="w-full sticky bottom-0 block md:hidden">
+        <MenuBottomBar />
+      </section>
+    </div>
   );
 };
 export default Form;

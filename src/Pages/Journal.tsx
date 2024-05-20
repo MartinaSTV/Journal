@@ -10,22 +10,40 @@ import FormExistButton from "../componens/FormExistButton";
 import UserAtom from "../atoms/user";
 
 const JournalLandingPage = () => {
-  const [allForms, setAllForms] = useState<IformData[]>([]);
+  const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
+  const [update, setUpdate] = useState(false);
   onChangeAuth(setUserId);
 
   useEffect(() => {
-    createForm(userId);
+    createForm(userId, setUpdate);
   }, [userId]);
+  useEffect(() => {
+    createForm(userId, setUpdate);
+  }, []);
 
   useEffect(() => {
-    const getTodaysFormsData = async () => {
-      const forms = await getTodaysForms(userId);
-      if (forms !== undefined) setAllForms([...forms]);
-    };
     getTodaysFormsData();
-  }, [userId]);
+  }, [userId, update]);
 
+  const getTodaysFormsData = async () => {
+    const forms = await getTodaysForms(userId);
+
+    if (forms !== undefined) {
+      forms.sort((a, b) => {
+        const parseTime = (timeStr: any) => {
+          const [hours, minutes] = timeStr.split(".").map(Number);
+          return hours * 60 + minutes;
+        };
+        const timeA = parseTime(a.formdata.show);
+        const timeB = parseTime(b.formdata.show);
+
+        return timeA - timeB;
+      });
+
+      setAllForms([...forms]);
+    }
+  };
   return (
     <section
       className="flex flex-col max-w-[1500px] relative "
@@ -42,7 +60,7 @@ const JournalLandingPage = () => {
         Hem
       </h1>
       <div className="m-5 text-[#F5F5F5] max-w-[339px] md:mr-auto md:ml-auto">
-        <p className="">Hej {"Anton"}</p>
+        <p className="font-semibold ">Hej {"Anton"}</p>
         <p className="">
           Fyll i din dagbok genom att klicka nedanför. Fyll i ett formulär i
           taget. Du kan se på klockslaget när formuläret öppnas och kan fyllas

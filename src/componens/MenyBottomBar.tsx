@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import homeIcon from "../../public/Icons/clarity_home-line (1).svg";
-import logoutIcon from "../../public/Icons/mdi-light_logout.svg";
+import homeIcon from "../assets/Icons/clarity_home-line (1).svg";
+import logoutIcon from "../assets/Icons/mdi-light_logout.svg";
 import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
 import { logOut } from "../Service/LoginService";

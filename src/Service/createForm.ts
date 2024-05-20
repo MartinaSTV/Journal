@@ -9,34 +9,38 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "./Firebase";
+import { SetStateAction } from "react";
 
 //TODO remove empty forms
-const createForm = async (userId: string) => {
+const createForm = async (
+  userId: string,
+  setUpdate: { (value: SetStateAction<boolean>): void; (arg0: boolean): void }
+) => {
   const userForms: string[] | undefined = await getUserFormIdInUser(userId);
   const today = new Date();
-  const formattedDateToday = `${today.getFullYear()} ${today.getMonth()} ${today.getDate()}`;
-  let todayExist = true;
+  today.setHours(0, 0, 0, 0);
+  let todayExist = false;
 
   if (userForms !== undefined) {
     if (userForms.length === 0) {
       await createsAndSavesFormsToUserIfNotExist(userId);
-      // Hur många forms sparas vid första inloggning?
     } else {
       const formsExist = await getForms(userId);
       formsExist?.forEach((form) => {
-        const formDate = new Date(form.date);
-        const formattedFormDate = `${formDate.getFullYear()} ${formDate.getMonth()} ${formDate.getDate()}`;
-        if (formattedFormDate === formattedDateToday) {
+        const formDate = new Date(form.formdata.date);
+        formDate.setHours(0, 0, 0, 0);
+
+        if (formDate.getTime() === today.getTime()) {
           todayExist = true;
         } else {
-          console.log("Finns inga med dagens datum");
-          todayExist = false;
+          //console.log(`Form date ${formDate} is not equal to today ${today}`);
         }
       });
     }
 
     if (!todayExist) {
       await createsAndSavesFormsToUserIfNotExist(userId);
+      setUpdate(true);
     }
   } else {
     console.log("Användarformulär är undefined eller null.");
@@ -58,24 +62,53 @@ const createsAndSavesFormsToUserIfNotExist = async (userId: string) => {
     { title: "Kväll", show: "20.00" },
   ];
 
+  const answer = [
+    { qustion: "" },
+    {
+      qustion: "",
+      subquestions: [
+        { subquestion: "" },
+        {
+          subquestion: "",
+          checkBox: ["", "", "", ""],
+          textfield: "",
+        },
+        {
+          subquestion: "",
+          checkBox: ["", "", "", "", ""],
+          textfields: [
+            { textfield: "" },
+            { textfield: "" },
+            { textfield: "" },
+            { textfield: "" },
+            { textfield: "" },
+          ],
+        },
+      ],
+    },
+  ];
+
   for (const form of forms) {
     const formData = {
       userId: userId,
       date: formattedFormDate,
-      answer: "",
+      answer: answer,
       title: form.title,
       time: `${hours}.${minuts}`,
       show: form.show,
       finalised: false,
     };
+
     await saveForms(formData);
   }
   await saveFormIdsToUser(userId);
 };
 
 // TODO lägg till limit för hur många som kan hämtas
-const getForms = async (userId: string): Promise<IformData[] | undefined> => {
-  const forms: IformData[] = [];
+const getForms = async (
+  userId: string
+): Promise<IresponseForm[] | undefined> => {
+  const forms: IresponseForm[] = [];
   try {
     const UserDataForm = query(
       collection(db, "JournalForm"),
@@ -83,7 +116,7 @@ const getForms = async (userId: string): Promise<IformData[] | undefined> => {
     );
     const queryresponse = await getDocs(UserDataForm);
     queryresponse.forEach((form) => {
-      forms.push(form.data() as IformData);
+      forms.push({ formdata: form.data() as IformData, formId: form.id });
     });
     return forms;
   } catch (error) {
@@ -91,7 +124,7 @@ const getForms = async (userId: string): Promise<IformData[] | undefined> => {
   }
 };
 
-const saveForms = async (formData: IformData) => {
+const saveForms = async (formData: IresponseForm) => {
   try {
     await addDoc(collection(db, "JournalForm"), formData);
     console.log("added form to db");
@@ -102,7 +135,6 @@ const saveForms = async (formData: IformData) => {
 
 const saveFormIdsToUser = async (userId: string) => {
   const formIds: string[] | undefined = await getFormsIdConnectedToUser(userId);
-  console.log(formIds);
   if (formIds !== undefined) await saveIdFormToUser(userId, formIds);
 };
 

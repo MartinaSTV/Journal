@@ -3,8 +3,8 @@ import bgBig from "../../public/bgBig.png";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
-import letter from "../../public/Icons/material-symbols_mail-outline.svg";
-import lock from "../../public/Icons/lock.svg";
+import letter from "../assets/Icons/material-symbols_mail-outline.svg";
+import lock from "../assets/Icons/lock.svg";
 import { createUserAccount, logInAccount } from "../Service/LoginService";
 
 const LogIn = () => {

@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import homeIcon from "../../public/Icons/clarity_home-line (1).svg";
-import logoutIcon from "../../public/Icons/mdi-light_logout.svg";
+import homeIcon from "../assets/Icons/clarity_home-line (1).svg";
+import logoutIcon from "../assets/Icons/mdi-light_logout.svg";
 import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
 import { logOut } from "../Service/LoginService";
@@ -25,7 +25,7 @@ const MenuBig = () => {
   };
 
   return (
-    <header className="flex text-white items-center bg-black opacity-75 w-full hidden md:flex ">
+    <header className="flex text-white items-center bg-black opacity-85 w-full hidden md:flex ">
       <div className="flex items-center m-5">
         <h1 className=" text-[30px] font-medium">Ångest Dagboken</h1>
       </div>
@@ -47,7 +47,7 @@ const MenuBig = () => {
             href=""
           >
             {pages.title === "Hem" && (
-              <img src={homeIcon} alt="Hus" className="mr-4" />
+              <img src={homeIcon} alt="Hus Hem" className="mr-4" />
             )}
             {pages.title === "Logga ut" && (
               <img src={logoutIcon} alt="Öppnad dörr ut" className="mr-4" />
