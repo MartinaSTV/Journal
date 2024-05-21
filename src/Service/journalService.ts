@@ -40,12 +40,28 @@ const getTodaysForms = async (
 
 // funkar ej, varför?
 const updateIsFinalised = async (formId: string) => {
-  const JournalRef = doc(db, "journalForm", `${formId}`);
-  await updateDoc(JournalRef, {
-    finalised: true,
-  });
+  console.log(formId);
+  const JournalRef = doc(db, "JournalForm", `${formId}`);
+  try {
+    const res = await updateDoc(JournalRef, {
+      finalised: true,
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const UpdateFormAnswer = () => {};
+const UpdateFormAnswer = async (formId: string, answer) => {
+  const JournalRef = doc(db, "JournalForm", `${formId}`);
+  try {
+    const res = await updateDoc(JournalRef, {
+      answer: answer,
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export { getTodaysForms, updateIsFinalised, UpdateFormAnswer };
