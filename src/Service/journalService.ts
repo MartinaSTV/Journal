@@ -52,7 +52,7 @@ const updateIsFinalised = async (formId: string) => {
   }
 };
 
-const UpdateFormAnswer = async (formId: string, answer) => {
+/* const UpdateFormAnswer = async (formId: string, answer) => {
   const JournalRef = doc(db, "JournalForm", `${formId}`);
   try {
     const res = await updateDoc(JournalRef, {
@@ -62,6 +62,6 @@ const UpdateFormAnswer = async (formId: string, answer) => {
   } catch (error) {
     console.log(error);
   }
-};
+}; */
 
-export { getTodaysForms, updateIsFinalised, UpdateFormAnswer };
+export { getTodaysForms, updateIsFinalised };

@@ -1,6 +1,6 @@
 import clock from "../assets/Icons/ph_clock.svg";
 import { useNavigate } from "react-router-dom";
-import lock from "../assets/Icons/LockYellow.svg";
+//import lock from "../assets/Icons/LockYellow.svg";
 import checkMark from "../assets/checkedMark.svg";
 
 interface IformDataProps {
