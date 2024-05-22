@@ -8,9 +8,16 @@ import YellowElse from "../../assets/Smileys/yellowStraightSmiley.svg";
 interface IfeelingsProps {
   formDataState: Ianswear[];
   idxForm: number;
+  saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
+  setFormDataState: (formDataState: Ianswear[]) => void;
 }
 
-const Feelings = ({ formDataState, idxForm }: IfeelingsProps) => {
+const Feelings = ({
+  formDataState,
+  idxForm,
+  saveFromAnswers,
+  setFormDataState,
+}: IfeelingsProps) => {
   const [chosenFeeling, setChoseFeeling] = useState({ feelingC: "", idx: -1 });
   const smileys = [
     { img: Happy, text: "Glad", color: "border-[#0FBD7E]" },
@@ -40,11 +47,19 @@ const Feelings = ({ formDataState, idxForm }: IfeelingsProps) => {
     }
   }, [formDataState, idxForm]);
 
+  const saveSmileytoDatabase = (smiley: string) => {
+    const updatedFormDataState = [...formDataState];
+    updatedFormDataState[idxForm].qustion = smiley;
+    saveFromAnswers(updatedFormDataState);
+    setFormDataState([...updatedFormDataState]);
+  };
+
   return (
     <button className="flex justify-around mt-5 mb-10 md:w-[500px]">
       {smileys.map((feeling, idx) => (
         <div
           onClick={() => {
+            saveSmileytoDatabase(feeling.text);
             setChoseFeeling({ feelingC: feeling.text, idx: idx });
           }}
           className="flex flex-col cursor-pointer"

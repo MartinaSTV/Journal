@@ -6,6 +6,8 @@ interface Iinput {
   idx: number;
   idxForm: number;
   idxSubquestions: number;
+  saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
+  setFormDataState: (formDataState: Ianswear[]) => void;
 }
 
 const Textfields = ({
@@ -14,6 +16,8 @@ const Textfields = ({
   idx,
   idxForm,
   idxSubquestions,
+  saveFromAnswers,
+  setFormDataState,
 }: Iinput) => {
   const [defaultV, setDefaultV] = useState<string>("");
 
@@ -27,23 +31,41 @@ const Textfields = ({
     if (textfields?.textfield !== undefined) {
       defaultValue = textfields.textfield;
     }
-
     setDefaultV(defaultValue);
   }, [formDataState, idxForm, idxSubquestions, idx]);
 
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    const updatedFormDataState = [...formDataState];
+
+    if (
+      updatedFormDataState[idxForm]?.subquestions?.[idxSubquestions]
+        ?.textfields?.[idx]?.textfield !== undefined
+    ) {
+      updatedFormDataState[idxForm].subquestions[idxSubquestions].textfields![
+        idx
+      ].textfield = newValue;
+    }
+
+    setFormDataState([...updatedFormDataState]);
+    saveFromAnswers(updatedFormDataState);
+  };
+
   return (
-    <div className=" flex flex-col p-5 md:w-[500px]">
-      <label htmlFor="" className="mb-3 font-bold">
+    <div className="flex flex-col p-5 md:w-[500px]">
+      <label htmlFor={`textarea-${idx}`} className="mb-3 font-bold">
         {input.textfield}
       </label>
       <textarea
-        defaultValue={defaultV || ""}
+        id={`textarea-${idx}`}
+        onBlur={handleBlur}
+        onChange={(e) => setDefaultV(e.target.value)}
+        defaultValue={defaultV}
         className="shadow-inner rounded mb-5 h-[165px] p-5"
         placeholder="Skriv här"
-        name=""
-        id=""
-      ></textarea>
+      />
     </div>
   );
 };
+
 export default Textfields;

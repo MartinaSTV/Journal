@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./Firebase";
 
-// fixa felmedelande
+// TODO fixa felmedelande
 
 const getTodaysForms = async (
   userId: string
@@ -38,7 +38,6 @@ const getTodaysForms = async (
   }
 };
 
-// funkar ej, varför?
 const updateIsFinalised = async (formId: string) => {
   console.log(formId);
   const JournalRef = doc(db, "JournalForm", `${formId}`);
@@ -52,16 +51,14 @@ const updateIsFinalised = async (formId: string) => {
   }
 };
 
-/* const UpdateFormAnswer = async (formId: string, answer) => {
+const updateFormAnswer = async (formId: string, answer: Ianswear[]) => {
   const JournalRef = doc(db, "JournalForm", `${formId}`);
   try {
-    const res = await updateDoc(JournalRef, {
+    await updateDoc(JournalRef, {
       answer: answer,
     });
-    console.log(res);
   } catch (error) {
     console.log(error);
   }
-}; */
-
-export { getTodaysForms, updateIsFinalised };
+};
+export { getTodaysForms, updateIsFinalised, updateFormAnswer };

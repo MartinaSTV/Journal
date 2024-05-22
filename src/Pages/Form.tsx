@@ -6,13 +6,13 @@ import Feelings from "../componens/FormComponents/Feelings";
 import yellowDateIcon from "../assets/Icons/yellowDate.svg";
 import pinkClock from "../assets/Icons/ph_clock.svg";
 import bgBig from "../../public/bgBig.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { feelingsList } from "../componens/FormComponents/formQuestions";
 import { smileys } from "../componens/FormComponents/formQuestions";
 import MenuBottomBar from "../componens/MenyBottomBar";
 import MenuBig from "../componens/MenyBig";
 import { useLocation } from "react-router-dom";
-import { updateIsFinalised } from "../Service/journalService";
+import { updateFormAnswer, updateIsFinalised } from "../Service/journalService";
 import { onChangeAuth } from "../Service/LoginService";
 import { useRecoilState } from "recoil";
 import UserAtom from "../atoms/user";
@@ -32,8 +32,45 @@ const Form = () => {
   const min = date.getMinutes();
   const data = useLocation();
   const navigate = useNavigate();
+  const [formDataState, setFormDataState] = useState<Ianswear[]>(
+    JSON.parse(sessionStorage.getItem("formDataState") as string) ||
+      data.state.formData.formdata.answer
+  );
+  const formId = data.state.formData.formId;
+  console.log(formId);
 
-  const formDataState: Ianswear[] = data.state.formData.formdata.answer;
+  useEffect(() => {
+    sessionStorage.setItem("formDataState", JSON.stringify(formDataState));
+  }, [formDataState]);
+
+  useEffect(() => {
+    const savedFormData = sessionStorage.getItem("formDataState");
+    if (savedFormData) {
+      setFormDataState(JSON.parse(savedFormData));
+    }
+  }, []);
+
+  const onblurTextArea = (
+    e: React.FocusEvent<HTMLTextAreaElement>,
+    idxForm: number,
+    idxSubquestions: number
+  ) => {
+    const newValue = e.target.value;
+    const updatedFormDataState = [...formDataState];
+    updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
+      newValue;
+
+    setFormDataState([...updatedFormDataState]);
+    saveFromAnswers(updatedFormDataState);
+  };
+
+  const saveFromAnswers = async (answear: Ianswear[]) => {
+    try {
+      await updateFormAnswer(formId, answear);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex flex-col max-w-[1500px] bg-[#F5F5F5] relative ">
@@ -78,9 +115,16 @@ const Form = () => {
                 data={smileys}
                 formDataState={formDataState}
                 idxForm={idxForm}
+                setFormDataState={setFormDataState}
+                saveFromAnswers={saveFromAnswers}
               />
             ) : (
-              <Feelings formDataState={formDataState} idxForm={idxForm} />
+              <Feelings
+                formDataState={formDataState}
+                idxForm={idxForm}
+                setFormDataState={setFormDataState}
+                saveFromAnswers={saveFromAnswers}
+              />
             )}
             <section>
               {question.subquestions?.map((subquestion, idxSubquestions) => (
@@ -91,13 +135,15 @@ const Form = () => {
                   >
                     {subquestion.subquestion}
                   </h3>
-                  {subquestion.subquestion === "Hur stark är din känsla" && (
+                  {subquestion.subquestion === "Hur stark är din känsla?" && (
                     <DropDown
                       value={value}
                       type={question.qustion}
                       data={feelingsList}
                       formDataState={formDataState}
                       idxForm={idxForm}
+                      setFormDataState={setFormDataState}
+                      saveFromAnswers={saveFromAnswers}
                     />
                   )}
                   {subquestion.checkBox &&
@@ -109,6 +155,8 @@ const Form = () => {
                         formDataState={formDataState}
                         idxSubquestions={idxSubquestions}
                         idxForm={idxForm}
+                        setFormDataState={setFormDataState}
+                        saveFromAnswers={saveFromAnswers}
                       />
                     ))}
                   {
@@ -123,6 +171,9 @@ const Form = () => {
                       {subquestion.textfield ===
                         "Beskriv med ord varför du känner som du gör?" && (
                         <textarea
+                          onBlur={(e) => {
+                            onblurTextArea(e, idxForm, idxSubquestions);
+                          }}
                           defaultValue={
                             formDataState[idxForm]?.subquestions[
                               idxSubquestions
@@ -143,9 +194,11 @@ const Form = () => {
                         key={idx + "input"}
                         input={input}
                         formDataState={formDataState}
+                        setFormDataState={setFormDataState}
                         idx={idx}
                         idxSubquestions={idxSubquestions}
                         idxForm={idxForm}
+                        saveFromAnswers={saveFromAnswers}
                       />
                     ))}
                 </div>

@@ -7,6 +7,8 @@ interface Itext {
   data: ISmiley[];
   formDataState: Ianswear[];
   idxForm: number;
+  saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
+  setFormDataState: (formDataState: Ianswear[]) => void;
 }
 interface ISmiley {
   img: string;
@@ -14,7 +16,16 @@ interface ISmiley {
   textValue: string;
 }
 
-const DropDown = ({ value, type, data, formDataState, idxForm }: Itext) => {
+const DropDown = ({
+  value,
+  type,
+  data,
+  formDataState,
+  idxForm,
+  saveFromAnswers,
+  setFormDataState,
+}: Itext) => {
+  // TODO default value glappar
   const [showDropDown, setShowDropDown] = useState(false);
   const [isHovered, setIsHovered] = useState({ hovered: false, index: -1 });
   const [chosenSmiley, setChosenSmiley] = useState<ISmiley>();
@@ -22,18 +33,27 @@ const DropDown = ({ value, type, data, formDataState, idxForm }: Itext) => {
   useEffect(() => {
     const smiley = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].textValue === formDataState[idxForm].qustion) {
-        const choseExist = {
-          img: data[i].img,
-          value: data[i].value,
-          textValue: formDataState[idxForm].qustion,
-        };
-        smiley.push(choseExist);
+      if (formDataState[idxForm]?.qustion) {
+        if (data[i].textValue === formDataState[idxForm].qustion) {
+          const choseExist = {
+            img: data[i].img,
+            value: data[i].value,
+            textValue: formDataState[idxForm].qustion,
+          };
+          smiley.push(choseExist);
+        }
       }
     }
 
     setChosenSmiley(smiley[0]);
   }, [formDataState, idxForm]);
+
+  const saveSmileytoDatabase = (smiley: ISmiley) => {
+    const updatedFormDataState = [...formDataState];
+    updatedFormDataState[idxForm].qustion = smiley.textValue;
+    saveFromAnswers(updatedFormDataState);
+    setFormDataState([...updatedFormDataState]);
+  };
 
   return (
     <div className="ml-4 mr-4 mb-5 mt-5">
@@ -77,6 +97,7 @@ const DropDown = ({ value, type, data, formDataState, idxForm }: Itext) => {
               onClick={() => {
                 setShowDropDown(false);
                 setChosenSmiley(smiley);
+                saveSmileytoDatabase(smiley);
               }}
               onMouseEnter={() => setIsHovered({ hovered: true, index: idx })}
               onMouseLeave={() => setIsHovered({ hovered: false, index: idx })}

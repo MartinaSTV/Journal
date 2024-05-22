@@ -8,15 +8,20 @@ interface IcheckBox {
   formDataState: Ianswear[];
   idxSubquestions: number;
   idxForm: number;
+  saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
+  setFormDataState: (formDataState: Ianswear[]) => void;
 }
 
-// fixa sparning av värden och TS fel som klagara på att den kan vara undefined
+//TODO- bugg på klicket som är långsamt
+
 const CheckBoxForm = ({
   checkBox,
   index,
   formDataState,
   idxSubquestions,
   idxForm,
+  saveFromAnswers,
+  setFormDataState,
 }: IcheckBox) => {
   const [chosenBox, setChosenBox] = useState({
     idx: -1,
@@ -37,6 +42,23 @@ const CheckBoxForm = ({
       textValue: updatedTextValue,
     });
   }, [formDataState, idxForm, idxSubquestions, index]);
+
+  const saveToDatabase = (value: string) => {
+    console.log(value);
+    const updatedFormDataState = [...formDataState];
+
+    if (
+      updatedFormDataState[idxForm]?.subquestions?.[idxSubquestions]
+        ?.checkBox?.[index] !== undefined
+    ) {
+      updatedFormDataState[idxForm].subquestions[idxSubquestions].checkBox![
+        index
+      ] = value;
+    }
+
+    setFormDataState([...updatedFormDataState]);
+    saveFromAnswers(updatedFormDataState);
+  };
 
   return (
     <div className="flex ml-5 mb-5 items-center mt-5 relative">
@@ -60,8 +82,11 @@ const CheckBoxForm = ({
         onChange={(e) => {
           if (e.target.checked) {
             setChosenBox({ idx: index, textValue: e.target.value });
+            saveToDatabase(e.target.value);
           } else {
+            console.log("klick4");
             setChosenBox({ idx: -1, textValue: "" });
+            saveToDatabase("");
           }
         }}
         type="checkbox"
