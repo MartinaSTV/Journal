@@ -103,14 +103,16 @@ const AllJournals = () => {
         </button>
       </article>
 
-      <section className="flex flex-col mb-30 md:items-center">
+      <section className="flex flex-col mb-30  md:items-center">
         <h2 className="text-white font-medium ml-5 mr-auto text-xl">
           Dagboksinlägg
         </h2>
-        {allForms?.length > 0 &&
-          allForms.map((data, idx) => (
-            <AllFormsBtn key={idx + "allforms"} data={data} />
-          ))}
+        <div className="max-h-[400px] overflow-auto w-full ">
+          {allForms?.length > 0 &&
+            allForms.map((data, idx) => (
+              <AllFormsBtn key={idx + "allforms"} data={data} />
+            ))}
+        </div>
       </section>
       <section className="w-full sticky bottom-0 block md:hidden">
         <MenuBottomBar />

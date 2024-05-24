@@ -37,9 +37,9 @@ const Form = () => {
       data.state.formData.formdata.answer
   );
   const formId = data.state.formData.formId;
-  console.log(formId);
 
   useEffect(() => {
+    setFormDataState(data.state.formData.formdata.answer);
     sessionStorage.setItem("formDataState", JSON.stringify(formDataState));
   }, [formDataState]);
 
@@ -129,12 +129,12 @@ const Form = () => {
             <section>
               {question.subquestions?.map((subquestion, idxSubquestions) => (
                 <div className="flex flex-col" key={idxSubquestions}>
-                  <h3
+                  <h2
                     id="subquestionHeader"
                     className="ml-5 font-medium text-xl"
                   >
                     {subquestion.subquestion}
-                  </h3>
+                  </h2>
                   {subquestion.subquestion === "Hur stark är din känsla?" && (
                     <DropDown
                       value={value}
@@ -162,8 +162,7 @@ const Form = () => {
                   {
                     <div className="flex flex-col mb-5">
                       <label
-                        htmlFor=""
-                        id="subquestionTextField"
+                        htmlFor={`subquestionTextField+${idxSubquestions}+${idxForm}form`}
                         className="ml-5 font-medium"
                       >
                         {subquestion.textfield}
@@ -180,7 +179,7 @@ const Form = () => {
                             ]?.textfield || ""
                           }
                           name=""
-                          id="subquestionTextField"
+                          id={`subquestionTextField+${idxSubquestions}+${idxForm}form`}
                           className="shadow-inner rounded  m-5 h-[165px] p-5"
                           placeholder="Skriv här"
                         ></textarea>

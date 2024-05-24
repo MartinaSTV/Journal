@@ -23,7 +23,9 @@ const getTodaysForms = async (
       where("userId", "==", userId)
     );
     const queryresponse = await getDocs(UserDataForm);
+
     queryresponse.forEach((form) => {
+      console.log(form.data().date);
       const formDate = new Date(form.data().date);
       const formattedFormDate = `${formDate.getFullYear()} ${formDate.getMonth()} ${formDate.getDate()}`;
 
@@ -36,6 +38,31 @@ const getTodaysForms = async (
   } catch (error) {
     console.log(error, "kunde inte hämta forms");
   }
+
+  /* const forms: IresponseForm[] = [];
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const UserDataForm = query(
+      collection(db, "JournalForm"),
+      where("userId", "==", userId),
+      where("date", ">=", Timestamp.fromDate(today)),
+      where("date", "<", Timestamp.fromDate(tomorrow))
+    );
+
+    const queryresponse = await getDocs(UserDataForm);
+    queryresponse.forEach((form) => {
+      forms.push({ formdata: form.data() as IformData, formId: form.id });
+    });
+
+    return forms;
+  } catch (error) {
+    console.error("Error in getForms:", error);
+    return undefined;
+  } */
 };
 
 const updateIsFinalised = async (formId: string) => {

@@ -44,7 +44,6 @@ const CheckBoxForm = ({
   }, [formDataState, idxForm, idxSubquestions, index]);
 
   const saveToDatabase = (value: string) => {
-    console.log(value);
     const updatedFormDataState = [...formDataState];
 
     if (
@@ -62,7 +61,10 @@ const CheckBoxForm = ({
 
   return (
     <div className="flex ml-5 mb-5 items-center mt-5 relative">
-      <label htmlFor="" className="font-medium mr-4">
+      <label
+        htmlFor={`checkbox-${idxForm}-${idxSubquestions}-${index}`}
+        className="font-medium mr-4"
+      >
         {checkBox}
       </label>
 
@@ -92,8 +94,8 @@ const CheckBoxForm = ({
         type="checkbox"
         className="h-[40px] w-[40px] absolute right-5  opacity-0"
         value={checkBox}
-        name=""
-        id=""
+        name={`checkbox+${index}`}
+        id={`checkbox-${idxForm}-${idxSubquestions}-${index}`}
         defaultChecked={updatedIndex !== ""}
       />
     </div>

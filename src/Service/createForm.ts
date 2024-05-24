@@ -11,7 +11,9 @@ import {
 import { db } from "./Firebase";
 import { SetStateAction } from "react";
 
-//TODO remove empty forms
+//TODO skapa forms på ett bättre sätt
+// lägg till en loading när den väntar på formulär
+
 const createForm = async (
   userId: string,
   setUpdate: { (value: SetStateAction<boolean>): void; (arg0: boolean): void }
@@ -23,7 +25,7 @@ const createForm = async (
 
   if (userForms !== undefined) {
     if (userForms.length === 0) {
-      await createsAndSavesFormsToUserIfNotExist(userId);
+      await createsAndSavesFormsToUserIfNotExist(userId, today);
     } else {
       const formsExist = await getForms(userId);
       formsExist?.forEach((form) => {
@@ -33,75 +35,86 @@ const createForm = async (
         if (formDate.getTime() === today.getTime()) {
           todayExist = true;
         } else {
-          //console.log(`Form date ${formDate} is not equal to today ${today}`);
+          console.log(`Form date ${formDate} is not equal to today ${today}`);
         }
       });
-    }
 
-    if (!todayExist) {
-      await createsAndSavesFormsToUserIfNotExist(userId);
-      setUpdate(true);
+      if (!todayExist) {
+        await createsAndSavesFormsToUserIfNotExist(userId, today);
+        setUpdate(true);
+      } else {
+        console.log("Användarformulär är undefined eller null.");
+      }
     }
   } else {
     console.log("Användarformulär är undefined eller null.");
   }
 };
 
-const createsAndSavesFormsToUserIfNotExist = async (userId: string) => {
-  const formDate = new Date();
-  const formattedFormDate = `${formDate.getFullYear()} ${
-    formDate.getMonth() + 1
-  } ${formDate.getDate()}`;
-  const hours = formDate.getHours();
-  const minuts = formDate.getMinutes();
+const createsAndSavesFormsToUserIfNotExist = async (
+  userId: string,
+  today: Date
+) => {
+  console.log(
+    "createsAndSavesFormsToUserIfNotExist anropas med userId:",
+    userId
+  );
+  try {
+    const formattedFormDate = `${today.getFullYear()} ${
+      today.getMonth() + 1
+    } ${today.getDate()}`;
 
-  const forms = [
-    { title: "Morgon", show: "07.30" },
-    { title: "Förmiddag", show: "11.30" },
-    { title: "Eftermiddag", show: "15.00" },
-    { title: "Kväll", show: "20.00" },
-  ];
+    const forms = [
+      { title: "Morgon", show: "07.30" },
+      { title: "Förmiddag", show: "11.30" },
+      { title: "Eftermiddag", show: "15.00" },
+      { title: "Kväll", show: "20.00" },
+    ];
 
-  const answer = [
-    { qustion: "" },
-    {
-      qustion: "",
-      subquestions: [
-        { subquestion: "" },
-        {
-          subquestion: "",
-          checkBox: ["", "", "", ""],
-          textfield: "",
-        },
-        {
-          subquestion: "",
-          checkBox: ["", "", "", "", ""],
-          textfields: [
-            { textfield: "" },
-            { textfield: "" },
-            { textfield: "" },
-            { textfield: "" },
-            { textfield: "" },
-          ],
-        },
-      ],
-    },
-  ];
+    const answer = [
+      { qustion: "" },
+      {
+        qustion: "",
+        subquestions: [
+          { subquestion: "" },
+          {
+            subquestion: "",
+            checkBox: ["", "", "", ""],
+            textfield: "",
+          },
+          {
+            subquestion: "",
+            checkBox: ["", "", "", "", ""],
+            textfields: [
+              { textfield: "" },
+              { textfield: "" },
+              { textfield: "" },
+              { textfield: "" },
+              { textfield: "" },
+            ],
+          },
+        ],
+      },
+    ];
 
-  for (const form of forms) {
-    const formData = {
-      userId: userId,
-      date: formattedFormDate,
-      answer: answer,
-      title: form.title,
-      time: `${hours}.${minuts}`,
-      show: form.show,
-      finalised: false,
-    };
+    const formPromises = forms.map((form) => {
+      const formData = {
+        userId: userId,
+        date: formattedFormDate,
+        answer: answer,
+        title: form.title,
+        show: form.show,
+        finalised: false,
+      };
+      console.log(`Skapar formulär: ${form.title} för ${formattedFormDate}`);
+      return saveForms(formData);
+    });
 
-    await saveForms(formData);
+    await Promise.all(formPromises);
+    await saveFormIdsToUser(userId);
+  } catch (error) {
+    console.log(error, "Kunde inte skapa form och spara till användare");
   }
-  await saveFormIdsToUser(userId);
 };
 
 // TODO lägg till limit för hur många som kan hämtas

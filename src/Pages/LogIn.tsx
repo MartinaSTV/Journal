@@ -63,7 +63,7 @@ const LogIn = () => {
         <div className="flex flex-col ">
           <div className="flex items-center">
             <img src={letter} alt="Ikon Brev" />
-            <label className="ml-2 " htmlFor="username">
+            <label className="ml-2 " htmlFor={`username+${type}`}>
               Emailadress
               <span className="font-light text-xs ml-2">
                 {" "}
@@ -77,7 +77,7 @@ const LogIn = () => {
             }}
             required
             type="text"
-            id="username"
+            id={`username+${type}`}
             placeholder="namn@hotmail.com"
             className=" pl-2 font-light shadow h-[40px] max-w-[350px] rounded"
           />

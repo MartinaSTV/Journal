@@ -16,14 +16,24 @@ const JournalLandingPage = () => {
   onChangeAuth(setUserId);
 
   useEffect(() => {
-    createForm(userId, setUpdate);
+    const fetchUserData = async () => {
+      if (userId) {
+        try {
+          await createForm(userId, setUpdate);
+          await getTodaysFormsData();
+        } catch (error) {
+          console.error("Error in fetchUserData:", error);
+        }
+      }
+    };
+
+    fetchUserData();
   }, [userId]);
-  useEffect(() => {
-    createForm(userId, setUpdate);
-  }, []);
 
   useEffect(() => {
-    getTodaysFormsData();
+    if (userId) {
+      getTodaysFormsData();
+    }
   }, [userId, update]);
 
   const getTodaysFormsData = async () => {
@@ -37,13 +47,12 @@ const JournalLandingPage = () => {
         };
         const timeA = parseTime(a.formdata.show);
         const timeB = parseTime(b.formdata.show);
-
         return timeA - timeB;
       });
-
       setAllForms([...forms]);
     }
   };
+
   return (
     <section
       className="flex flex-col max-w-[1500px] relative "
@@ -74,9 +83,9 @@ const JournalLandingPage = () => {
             <FormExistButton key={idx + "forms"} formData={form} />
           ))
         ) : (
-          <h4 className="text-white text-4xl ">
+          <h2 className="text-white text-4xl ">
             Finns inga dagboksinlägg att fylla i
-          </h4>
+          </h2>
         )}
       </section>
 

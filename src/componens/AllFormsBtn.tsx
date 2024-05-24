@@ -13,7 +13,7 @@ const AllFormsBtn = ({ data }: IAllFormsProps) => {
       onClick={() => {
         navigate("/form", { state: { formData: data } });
       }}
-      className="border shadow-lg max-w-[339px] m-5 h-[70px] flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px]"
+      className="border shadow-lg max-w-[339px] min-w-[280px] m-5 h-[70px] flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px]"
     >
       <p className="ml-5">{data.formdata.title}</p>
       <div className="flex ml-auto mr-5">

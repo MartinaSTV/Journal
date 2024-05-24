@@ -13,6 +13,8 @@ interface IuserData {
   userId: string;
   forms: string[];
 }
+
+// efter att user skapats så behöver den gå tillbak til login och logga in
 const createUserAccount = async (
   email: string,
   password: string,
@@ -47,7 +49,7 @@ const createUserAccount = async (
 
 const saveUserToDb = async (userData: IuserData) => {
   try {
-    const resp = await addDoc(collection(db, "user"), userData);
+    const resp = await addDoc(collection(db, "users"), userData);
     console.log(resp, "added user to db");
   } catch (error) {
     console.log("Error", error);
