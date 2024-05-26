@@ -14,11 +14,10 @@ interface IuserData {
   forms: string[];
 }
 
-// efter att user skapats så behöver den gå tillbak til login och logga in
 const createUserAccount = async (
   email: string,
   password: string,
-  setToken: (token: string) => void,
+
   setErrMsg: (errMsg: string) => void
 ) => {
   const auth = getAuth(app);
@@ -29,8 +28,7 @@ const createUserAccount = async (
       password
     );
     const user = userCredential.user;
-    const accessToken = await user.getIdToken();
-    setToken(accessToken);
+
     console.log(user, "User", user.uid, "test", user.tenantId);
 
     const userData: IuserData = {

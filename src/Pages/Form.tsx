@@ -212,7 +212,7 @@ const Form = () => {
               setTimeout(() => {
                 navigate("/Journal");
               }, 1000);
-              // visa checkmark att formuläret är färdigt.
+              // visa medelande att formuläret är sparat som finalised.
             } catch (error) {
               console.log(error);
             }

@@ -25,7 +25,6 @@ const getTodaysForms = async (
     const queryresponse = await getDocs(UserDataForm);
 
     queryresponse.forEach((form) => {
-      console.log(form.data().date);
       const formDate = new Date(form.data().date);
       const formattedFormDate = `${formDate.getFullYear()} ${formDate.getMonth()} ${formDate.getDate()}`;
 

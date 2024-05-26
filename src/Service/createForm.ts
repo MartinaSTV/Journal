@@ -11,8 +11,9 @@ import {
 import { db } from "./Firebase";
 import { SetStateAction } from "react";
 
-//TODO skapa forms på ett bättre sätt
+//TODO skapa forms på ett bättre sätt prestanda
 // lägg till en loading när den väntar på formulär
+// andra dagen så skapas dubbla formulär?? Dubbelkolla detta
 
 const createForm = async (
   userId: string,
@@ -21,25 +22,27 @@ const createForm = async (
   const userForms: string[] | undefined = await getUserFormIdInUser(userId);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  let todayExist = false;
 
   if (userForms !== undefined) {
     if (userForms.length === 0) {
       await createsAndSavesFormsToUserIfNotExist(userId, today);
     } else {
       const formsExist = await getForms(userId);
+      const todayExist: number[] = [];
       formsExist?.forEach((form) => {
         const formDate = new Date(form.formdata.date);
         formDate.setHours(0, 0, 0, 0);
 
         if (formDate.getTime() === today.getTime()) {
-          todayExist = true;
+          todayExist.push(1);
+          console.log("today exist");
         } else {
           console.log(`Form date ${formDate} is not equal to today ${today}`);
         }
       });
+      console.log(todayExist.length);
 
-      if (!todayExist) {
+      if (todayExist.length === 0) {
         await createsAndSavesFormsToUserIfNotExist(userId, today);
         setUpdate(true);
       } else {

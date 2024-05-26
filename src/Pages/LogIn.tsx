@@ -21,7 +21,8 @@ const LogIn = () => {
   };
 
   const handleOnCreateAccont = async () => {
-    await createUserAccount(username, password, setToken, setErrMsg);
+    await createUserAccount(username, password, setErrMsg);
+    await logInAccount(username, password, setToken, setErrMsg);
     token ? navigate("/Journal") : navigate("/");
   };
 
@@ -79,7 +80,7 @@ const LogIn = () => {
             type="text"
             id={`username+${type}`}
             placeholder="namn@hotmail.com"
-            className=" pl-2 font-light shadow h-[40px] max-w-[350px] rounded"
+            className=" pl-2 font-light shadow h-[40px] text-black max-w-[350px] rounded"
           />
         </div>
         <div className="flex flex-col">
@@ -97,7 +98,7 @@ const LogIn = () => {
             required
             type="text"
             id="password"
-            className=" pl-2 font-light shadow h-[40px] max-w-[350px] rounded"
+            className=" pl-2 font-light text-black shadow h-[40px] max-w-[350px] rounded"
             placeholder="Lösenord"
           />
         </div>
