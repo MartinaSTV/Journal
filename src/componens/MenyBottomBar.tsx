@@ -6,8 +6,6 @@ import Token from "../atoms/Token";
 import { logOut } from "../Service/LoginService";
 import UserAtom from "../atoms/user";
 
-//lägg till logga ut funktion
-
 const MenuBottomBar = () => {
   const [, setToken] = useRecoilState(Token);
   const navigate = useNavigate();
@@ -19,35 +17,35 @@ const MenuBottomBar = () => {
   };
 
   return (
-    <nav className=" h-[90px] flex bg-black justify-around text-white">
+    <nav className=" h-[70px] flex bg-black justify-around text-white">
       <a
-        className="h-[70px] flex flex-col items-center mt-3"
+        className="h-[60px] flex flex-col items-center mt-3"
         onClick={() => {
           navigate("/Journal");
         }}
         href=""
       >
-        <img src={homeIcon} alt="Hus" />
+        <img src={homeIcon} alt="Hus" className="w-[20px]" />
         <p>Hem</p>
       </a>
       <a
         onClick={() => {
           navigate("/Meny");
         }}
-        className="max-h-[60px] rounded-md border mt-3"
+        className="h-[50px] w-[80px] rounded-md border flex items-center justify-center mt-3"
         href=""
       >
-        <p className=" p-2 m-2 ">Meny</p>
+        <p className="">Meny</p>
       </a>
       <a
         onClick={() => {
           logOut(setAndNavigate);
           navigate("/loggedOut");
         }}
-        className="h-[70px] mt-3 flex flex-col items-center"
+        className="h-[60px] mt-3 flex flex-col items-center"
         href=""
       >
-        <img src={logoutIcon} alt="öppnad dörr" />
+        <img src={logoutIcon} alt="öppnad dörr" className="w-[20px]" />
         <p>Logga ut</p>
       </a>
     </nav>

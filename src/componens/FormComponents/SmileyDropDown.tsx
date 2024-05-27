@@ -60,7 +60,7 @@ const DropDown = ({
         onClick={() => {
           setShowDropDown(!showDropDown);
         }}
-        className={`flex shadow-md rounded-md  h-[64px] items-center w-full items-center  md:max-w-[400px]  ${
+        className={`flex shadow-md rounded-md h-[64px] items-center w-full items-center md:max-w-[400px]  ${
           chosenSmiley ? "bg-white border border-[#0F69BD]" : "bg-[#0F69BD]"
         }`}
       >
@@ -98,16 +98,20 @@ const DropDown = ({
                 setChosenSmiley(smiley);
                 saveSmileytoDatabase(smiley);
               }}
-              onMouseEnter={() => setIsHovered({ hovered: true, index: idx })}
-              onMouseLeave={() => setIsHovered({ hovered: false, index: -1 })}
+              onMouseEnter={() => {
+                setIsHovered({ hovered: true, index: idx });
+              }}
+              onMouseLeave={() => {
+                setIsHovered({ hovered: false, index: -1 });
+              }}
               key={idx}
               className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px]
-              } ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"}  ${
-                isHovered.hovered && isHovered.index === idx
+               ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
+                isHovered.index === idx
                   ? smiley.value === 1
                     ? "bg-Green bg-opacity-15"
                     : smiley.value === 2
-                    ? "bg-Teal bg-opacity-15"
+                    ? "bg-[#2EC3B1] bg-opacity-15"
                     : smiley.value === 3
                     ? "bg-Blue bg-opacity-15"
                     : smiley.value === 4

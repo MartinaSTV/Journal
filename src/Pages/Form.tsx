@@ -32,14 +32,16 @@ const Form = () => {
   const min = date.getMinutes();
   const data = useLocation();
   const navigate = useNavigate();
-  const [formDataState, setFormDataState] = useState<Ianswear[]>(
+
+  const initialFormDataState =
     JSON.parse(sessionStorage.getItem("formDataState") as string) ||
-      data.state.formData.formdata.answer
-  );
+    data.state.formData.formdata.answer;
+  const [formDataState, setFormDataState] =
+    useState<Ianswear[]>(initialFormDataState);
+
   const formId = data.state.formData.formId;
 
   useEffect(() => {
-    setFormDataState(data.state.formData.formdata.answer);
     sessionStorage.setItem("formDataState", JSON.stringify(formDataState));
   }, [formDataState]);
 
@@ -82,7 +84,7 @@ const Form = () => {
           backgroundPosition: "center",
           backgroundImage: `url(${bgBig})`,
           backgroundSize: "cover",
-          height: "140px",
+          height: "100px",
         }}
       >
         <h1 className=" ml-5 text-white text-4xl ">

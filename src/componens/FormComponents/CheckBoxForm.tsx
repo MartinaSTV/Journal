@@ -12,8 +12,6 @@ interface IcheckBox {
   setFormDataState: (formDataState: Ianswear[]) => void;
 }
 
-//TODO- bugg på klicket som är långsamt
-
 const CheckBoxForm = ({
   checkBox,
   index,
@@ -27,19 +25,17 @@ const CheckBoxForm = ({
     idx: -1,
     textValue: "",
   });
-  let updatedIndex;
+
   useEffect(() => {
     const checkBoxValue =
       formDataState?.[idxForm]?.subquestions?.[idxSubquestions]?.checkBox?.[
         index
-      ];
-    updatedIndex = checkBoxValue !== "" ? index : -1;
-    const updatedTextValue =
-      checkBoxValue !== "" && checkBoxValue !== undefined ? checkBoxValue : "";
+      ] || "";
+    const updatedIndex = checkBoxValue !== "" ? index : -1;
 
     setChosenBox({
       idx: updatedIndex,
-      textValue: updatedTextValue,
+      textValue: checkBoxValue,
     });
   }, [formDataState, idxForm, idxSubquestions, index]);
 
@@ -56,7 +52,7 @@ const CheckBoxForm = ({
     }
 
     setFormDataState([...updatedFormDataState]);
-    saveFromAnswers(updatedFormDataState);
+    saveFromAnswers([...updatedFormDataState]);
   };
 
   return (
@@ -67,7 +63,6 @@ const CheckBoxForm = ({
       >
         {checkBox}
       </label>
-
       <img
         src={checkboxImg}
         alt="checkbox"
@@ -96,7 +91,7 @@ const CheckBoxForm = ({
         value={checkBox}
         name={`checkbox+${index}`}
         id={`checkbox-${idxForm}-${idxSubquestions}-${index}`}
-        defaultChecked={updatedIndex !== ""}
+        checked={chosenBox.idx === index}
       />
     </div>
   );
