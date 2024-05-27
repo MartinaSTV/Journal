@@ -65,7 +65,6 @@ const getTodaysForms = async (
 };
 
 const updateIsFinalised = async (formId: string) => {
-  console.log(formId);
   const JournalRef = doc(db, "JournalForm", `${formId}`);
   try {
     const res = await updateDoc(JournalRef, {
