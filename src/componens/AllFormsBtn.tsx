@@ -6,11 +6,13 @@ interface IAllFormsProps {
 }
 
 // TODO Ta bort funktion till formulär
+// TODO knapp i knapp
 const AllFormsBtn = ({ data }: IAllFormsProps) => {
   const navigate = useNavigate();
 
   return (
-    <button
+    <div
+      role="button"
       onClick={() => {
         navigate("/form", { state: { formData: data } });
       }}
@@ -24,7 +26,7 @@ const AllFormsBtn = ({ data }: IAllFormsProps) => {
       <button className="ml-auto mr-5 bg-black text-white p-2 rounded">
         Ta bort
       </button>
-    </button>
+    </div>
   );
 };
 export default AllFormsBtn;
