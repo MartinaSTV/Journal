@@ -1,4 +1,4 @@
-import bgBig from "../../public/bgBig.png";
+import bgBig from "../assets/bgBig.png";
 import { useNavigate } from "react-router-dom";
 
 const LoggedOut = () => {

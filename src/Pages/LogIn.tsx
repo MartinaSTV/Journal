@@ -1,11 +1,12 @@
 import { useState } from "react";
-import bgBig from "../../public/bgBig.png";
+import bgBig from "../assets/bgBig.png";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
 import letter from "../assets/Icons/material-symbols_mail-outline.svg";
 import lock from "../assets/Icons/lock.svg";
 import { createUserAccount, logInAccount } from "../Service/LoginService";
+import Loading from "../componens/Loading";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
@@ -13,6 +14,7 @@ const LogIn = () => {
   const [token, setToken] = useRecoilState(Token);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
+  const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
@@ -21,9 +23,15 @@ const LogIn = () => {
   };
 
   const handleOnCreateAccont = async () => {
-    await createUserAccount(username, password, setErrMsg);
-    await logInAccount(username, password, setToken, setErrMsg);
-    token ? navigate("/Journal") : navigate("/");
+    setloading(true);
+    try {
+      await createUserAccount(username, password, setErrMsg);
+      await logInAccount(username, password, setToken, setErrMsg);
+      setloading(false);
+      token ? navigate("/Journal") : navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -111,6 +119,7 @@ const LogIn = () => {
         >
           {!type ? "Logga in" : "Skapa konto"}
         </button>
+        {loading && <Loading text={"Loggar in.."} />}
       </form>
     </section>
   );

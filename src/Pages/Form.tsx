@@ -5,7 +5,7 @@ import { Questions } from "../componens/FormComponents/formQuestions";
 import Feelings from "../componens/FormComponents/Feelings";
 import yellowDateIcon from "../assets/Icons/yellowDate.svg";
 import pinkClock from "../assets/Icons/ph_clock.svg";
-import bgBig from "../../public/bgBig.png";
+import bgBig from "../assets/bgBig.png";
 import { useEffect, useState } from "react";
 import { feelingsList } from "../componens/FormComponents/formQuestions";
 import { smileys } from "../componens/FormComponents/formQuestions";

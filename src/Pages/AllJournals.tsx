@@ -4,7 +4,7 @@ import User from "../atoms/user";
 import { getForms } from "../Service/createForm";
 import { onChangeAuth } from "../Service/LoginService";
 import UserAtom from "../atoms/user";
-import bgBig from "../../public/bgBig.png";
+import bgBig from "../assets/bgBig.png";
 import MenuBig from "../componens/MenyBig";
 import AllFormsBtn from "../componens/AllFormsBtn";
 import MenuBottomBar from "../componens/MenyBottomBar";

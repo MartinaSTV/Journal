@@ -68,7 +68,7 @@ const Feelings = ({
           <img
             src={feeling.img}
             alt={feeling.text}
-            className={`h-[55px] w-[55px] rounded-full p-2 transition-all ${
+            className={`h-[55px] w-[55px] rounded-full p-2 hover:opacity-80 hover:shadow-inner transition-all ${
               chosenFeeling.feelingC === feeling.text &&
               chosenFeeling.idx === idx
                 ? `border-4 ${feeling.color}`
