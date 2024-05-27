@@ -12,7 +12,7 @@ const Meny = () => {
     { title: "Se alla inlägg", url: "/AllJournals" },
     { title: "Sammanställning av svar", url: "/CompilationJournal" },
     { title: "Hem", url: "/Journal" },
-    { title: "Ditt konto", url: "" },
+    { title: "Ditt konto", url: "/UserAccount" },
     { title: "Logga ut", url: "/LoggedOut" },
   ];
   const setAndNavigate = () => {

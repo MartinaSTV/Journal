@@ -55,7 +55,7 @@ const AllJournals = () => {
 
   return (
     <section
-      className="flex flex-col max-w-[1500px] relative "
+      className="flex flex-col max-w-[1500px] ml-auto mr-auto relative "
       style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -65,11 +65,11 @@ const AllJournals = () => {
       }}
     >
       <MenuBig />
-      <h1 className="text-white text-4xl font-normal mt-10 ml-5 md:text-5xl ">
+      <h1 className="text-white text-4xl font-normal mt-10 ml-5 max-w-[300px] md:text-5xl md:max-w-full ">
         Dina dagboksinlägg
       </h1>
-      <article className="flex flex-col  ml-5 mr-5 mb-10 mt-10 md:items-center text-white font-medium">
-        <div className="flex flex-col w-[213px] ">
+      <article className="flex flex-col ml-5 mr-5 mb-10 mt-10 text-white font-medium md:flex-row md:items-center">
+        <div className="flex flex-col w-[213px]">
           <label htmlFor="fromDate">Från datum</label>
           <input
             onChange={(e) => {
@@ -81,7 +81,7 @@ const AllJournals = () => {
             className="text-black rounded h-[52px] p-2"
           />
         </div>
-        <div className="flex flex-col  w-[213px]">
+        <div className="flex flex-col  w-[213px] md:ml-5">
           <label htmlFor="ToDate">Till datum</label>
           <input
             onChange={(e) => {
@@ -97,17 +97,17 @@ const AllJournals = () => {
           onClick={() => {
             FilterByDate();
           }}
-          className="border max-w-[339px] shadow-lg text-black mt-5 h-[70px] flex items-center justify-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px]"
+          className="border hover:bg-slate-200 max-w-[339px] shadow-lg text-black mt-5 h-[52px] flex items-center justify-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px] md:ml-5"
         >
           Sök
         </button>
       </article>
 
-      <section className="flex flex-col mb-30  md:items-center">
-        <h2 className="text-white font-medium ml-5 mr-auto text-xl">
+      <section className="flex flex-col mb-30   ">
+        <h2 className="text-white font-medium mb-5 ml-5 mr-auto text-xl">
           Dagboksinlägg
         </h2>
-        <div className="max-h-[400px] overflow-auto w-full ">
+        <div className=" min-w-[280px] flex flex-col max-w-[339px] mr-5 ml-5 md:max-w-[75%]">
           {allForms?.length > 0 &&
             allForms.map((data, idx) => (
               <AllFormsBtn key={idx + "allforms"} data={data} />

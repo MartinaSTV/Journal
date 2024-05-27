@@ -9,6 +9,7 @@ import {
 import { db } from "./Firebase";
 
 // TODO fixa felmedelande
+// TODO fixa index på firebase för att kunna ha flera queries
 
 const getTodaysForms = async (
   userId: string
@@ -65,7 +66,6 @@ const getTodaysForms = async (
 };
 
 const updateIsFinalised = async (formId: string) => {
-  console.log(formId);
   const JournalRef = doc(db, "JournalForm", `${formId}`);
   try {
     const res = await updateDoc(JournalRef, {

@@ -25,7 +25,6 @@ const DropDown = ({
   saveFromAnswers,
   setFormDataState,
 }: Itext) => {
-  // TODO default value glappar
   const [showDropDown, setShowDropDown] = useState(false);
   const [isHovered, setIsHovered] = useState({ hovered: false, index: -1 });
   const [chosenSmiley, setChosenSmiley] = useState<ISmiley>();
@@ -61,7 +60,7 @@ const DropDown = ({
         onClick={() => {
           setShowDropDown(!showDropDown);
         }}
-        className={`flex shadow-md rounded-md  h-[64px] items-center w-full items-center  md:max-w-[400px]  ${
+        className={`flex shadow-md rounded-md h-[64px] items-center w-full items-center md:max-w-[400px]  ${
           chosenSmiley ? "bg-white border border-[#0F69BD]" : "bg-[#0F69BD]"
         }`}
       >
@@ -99,11 +98,15 @@ const DropDown = ({
                 setChosenSmiley(smiley);
                 saveSmileytoDatabase(smiley);
               }}
-              onMouseEnter={() => setIsHovered({ hovered: true, index: idx })}
-              onMouseLeave={() => setIsHovered({ hovered: false, index: idx })}
+              onMouseEnter={() => {
+                setIsHovered({ hovered: true, index: idx });
+              }}
+              onMouseLeave={() => {
+                setIsHovered({ hovered: false, index: -1 });
+              }}
               key={idx}
               className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px]
-              } ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"}  ${
+               ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
                 isHovered.hovered && isHovered.index === idx
                   ? smiley.value === 1
                     ? "bg-[#0FBD7E] bg-opacity-15"
@@ -112,20 +115,18 @@ const DropDown = ({
                     : smiley.value === 3
                     ? "bg-[#14A0DC] bg-opacity-15"
                     : smiley.value === 4
-                    ? "bg-[#0F69BD] bg-opacity-15"
+                    ? "bg-DarkBlue bg-opacity-15"
                     : smiley.value === 5
-                    ? "bg-[#4D2CD2] bg-opacity-15"
+                    ? "bg-Purple bg-opacity-15"
                     : smiley.value === 6
-                    ? "bg-[#A43DF4] bg-opacity-15"
+                    ? "bg-Violet bg-opacity-15"
                     : smiley.value === 7
-                    ? "bg-[#F73B95] bg-opacity-15"
+                    ? "bg-Pink bg-opacity-15"
                     : smiley.value === 8
-                    ? "bg-[#F77313] bg-opacity-15"
+                    ? "bg-Orange bg-opacity-15"
                     : smiley.value === 9
-                    ? "bg-[#DA582F] bg-opacity-15"
-                    : smiley.value === 10
-                    ? "bg-[#E70B0B] bg-opacity-15"
-                    : ""
+                    ? "bg-RedOrange bg-opacity-15"
+                    : "bg-Red bg-opacity-15"
                   : ""
               }`}
             >
@@ -136,6 +137,7 @@ const DropDown = ({
                   className="mr-auto ml-5 col-span-1"
                 />
               )}
+
               <p className="ml-auto font-medium  col-span-1">{smiley.value}</p>
               <p className="col-span-4 font-medium">{smiley.textValue}</p>
             </button>
