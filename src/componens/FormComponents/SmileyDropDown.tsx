@@ -107,13 +107,13 @@ const DropDown = ({
               key={idx}
               className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px]
                ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
-                isHovered.index === idx
+                isHovered.hovered && isHovered.index === idx
                   ? smiley.value === 1
-                    ? "bg-Green bg-opacity-15"
+                    ? "bg-[#0FBD7E] bg-opacity-15"
                     : smiley.value === 2
                     ? "bg-[#2EC3B1] bg-opacity-15"
                     : smiley.value === 3
-                    ? "bg-Blue bg-opacity-15"
+                    ? "bg-[#14A0DC] bg-opacity-15"
                     : smiley.value === 4
                     ? "bg-DarkBlue bg-opacity-15"
                     : smiley.value === 5

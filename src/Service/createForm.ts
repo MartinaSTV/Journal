@@ -12,8 +12,7 @@ import { db } from "./Firebase";
 import { SetStateAction } from "react";
 
 //TODO skapa forms på ett bättre sätt prestanda
-// lägg till en loading när den väntar på formulär
-// andra dagen så skapas dubbla formulär?? Dubbelkolla detta
+//TODO andra dagen så skapas dubbla formulär?? Dubbelkolla detta varför??
 
 const createForm = async (
   userId: string,

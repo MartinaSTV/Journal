@@ -75,7 +75,7 @@ const Form = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-[1500px] bg-[#F5F5F5] relative ">
+    <div className="flex flex-col max-w-[1500px] ml-auto mr-auto bg-[#F5F5F5] relative ">
       <MenuBig />
       <div
         className="flex items-center max-w-[1500px] bg-[#F5F5F5] relative "

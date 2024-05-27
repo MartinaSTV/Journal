@@ -15,7 +15,7 @@ const MenuBig = () => {
     { title: "Hem", url: "/Journal" },
     { title: "Se alla inlägg", url: "/AllJournals" },
     { title: "Sammanställning av svar", url: "/CompilationJournal" },
-    { title: "Ditt konto", url: "" },
+    { title: "Ditt konto", url: "/UserAccount" },
     { title: "Logga ut", url: "/LoggedOut" },
   ];
 
@@ -27,7 +27,7 @@ const MenuBig = () => {
   return (
     <header className="flex text-white items-center bg-black opacity-85 w-full hidden md:flex ">
       <div className="flex items-center m-5">
-        <h1 className=" text-[30px] font-medium">Ångest Dagboken</h1>
+        <h1 className=" text-[30px] font-medium">Ångest dagboken</h1>
       </div>
       <nav className="flex max-w-[800px] ml-auto mr-5">
         {pages.map((pages, idx) => (

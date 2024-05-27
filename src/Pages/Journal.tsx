@@ -94,7 +94,7 @@ const JournalLandingPage = () => {
           ))
         ) : (
           <div>
-            <h2 className="text-white text-4xl ">
+            <h2 className="text-white text-2xl mt-10 ">
               Finns inga dagboksinlägg att fylla i
             </h2>
           </div>

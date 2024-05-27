@@ -9,6 +9,7 @@ import {
 import { db } from "./Firebase";
 
 // TODO fixa felmedelande
+// TODO fixa index på firebase för att kunna ha flera queries
 
 const getTodaysForms = async (
   userId: string

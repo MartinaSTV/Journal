@@ -45,7 +45,7 @@ const FormExistButton = ({ formData }: IformDataProps) => {
       onClick={() => {
         navigate("/form", { state: { formData: formData } });
       }}
-      className={`border max-w-[339px] m-5 h-[70px] flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px] `}
+      className={`border max-w-[339px] m-5 h-[70px]  flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px] `}
     >
       {formData.formdata.finalised === true && (
         <img src={checkMark} alt="bock" className="ml-5" />
