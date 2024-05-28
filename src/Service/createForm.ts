@@ -24,8 +24,10 @@ const createForm = async (
 
   if (userForms !== undefined) {
     if (userForms.length === 0) {
+      console.log("Längden är noll");
       await createsAndSavesFormsToUserIfNotExist(userId, today);
     } else {
+      // här kan du testa att göra en mer specifik query i getForms och ändra logiken
       const formsExist = await getForms(userId);
       const todayExist: number[] = [];
       formsExist?.forEach((form) => {
@@ -36,12 +38,13 @@ const createForm = async (
           todayExist.push(1);
           console.log("today exist");
         } else {
-          console.log(`Form date ${formDate} is not equal to today ${today}`);
+          //console.log(`Form date ${formDate} is not equal to today ${today}`);
         }
       });
       console.log(todayExist.length);
 
       if (todayExist.length === 0) {
+        console.log("todayExist är lika med noll");
         await createsAndSavesFormsToUserIfNotExist(userId, today);
         setUpdate(true);
       } else {
@@ -59,7 +62,8 @@ const createsAndSavesFormsToUserIfNotExist = async (
 ) => {
   console.log(
     "createsAndSavesFormsToUserIfNotExist anropas med userId:",
-    userId
+    userId,
+    "Mer än en gång??"
   );
   try {
     const formattedFormDate = `${today.getFullYear()} ${

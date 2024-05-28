@@ -11,22 +11,26 @@ import Loading from "../componens/Loading";
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
-  const [token, setToken] = useRecoilState(Token);
+  const [, setToken] = useRecoilState(Token);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
-    await logInAccount(username, password, setToken, setErrMsg);
+    const token = await logInAccount(username, password, setToken, setErrMsg);
     token ? navigate("/Journal") : navigate("/");
   };
 
   const handleOnCreateAccont = async () => {
     setloading(true);
     try {
-      await createUserAccount(username, password, setErrMsg);
-      await logInAccount(username, password, setToken, setErrMsg);
+      const token = await createUserAccount(
+        username,
+        password,
+        setToken,
+        setErrMsg
+      );
       setloading(false);
       token ? navigate("/Journal") : navigate("/");
     } catch (error) {
@@ -49,6 +53,7 @@ const LogIn = () => {
         type="submit"
         className=" font-bold shadow bg-white text-black rounded w-[173px] h-[55px] mt-10 ml-auto mr-4"
         onClick={() => {
+          setErrMsg("");
           type ? setType(false) : setType(true);
         }}
       >
