@@ -9,12 +9,15 @@ import { getTodaysForms } from "../Service/journalService";
 import FormExistButton from "../componens/FormExistButton";
 import UserAtom from "../atoms/user";
 import Loading from "../componens/Loading";
+import UserDataAtom from "../atoms/userData";
 
 const JournalLandingPage = () => {
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
+  const [allUserData] = useRecoilState(UserDataAtom);
   const [update, setUpdate] = useState(false);
   const [loading, setloading] = useState(false);
+
   onChangeAuth(setUserId);
 
   useEffect(() => {
@@ -48,7 +51,6 @@ const JournalLandingPage = () => {
 
   const getTodaysFormsData = async () => {
     const forms = await getTodaysForms(userId);
-    console.log(forms);
     if (forms !== undefined) {
       forms.sort((a, b) => {
         const parseTime = (timeStr: any) => {
@@ -79,7 +81,7 @@ const JournalLandingPage = () => {
         Hem
       </h1>
       <div className="m-5 text-[#F5F5F5] max-w-[339px] md:mr-auto md:ml-auto">
-        <p className="font-semibold ">Hej {"Anton"}</p>
+        <p className="font-semibold ">Hej {allUserData.userName}</p>
         <p className="">
           Fyll i din dagbok genom att klicka nedanför. Fyll i ett formulär i
           taget. Du kan se på klockslaget när formuläret öppnas och kan fyllas

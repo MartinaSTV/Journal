@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./Firebase";
 import { SetStateAction } from "react";
+import { getTodaysForms } from "./journalService";
 
 //TODO skapa forms på ett bättre sätt prestanda
 //TODO andra dagen så skapas dubbla formulär?? Dubbelkolla detta varför??
@@ -28,7 +29,7 @@ const createForm = async (
       console.log("Längden är noll");
       await createsAndSavesFormsToUserIfNotExist(userId, today);
     } else {
-      // här kan du testa att göra en mer specifik query i getForms och ändra logiken
+      /*    // här kan du testa att göra en mer specifik query i getForms och ändra logiken
       const formsExist = await getForms(userId);
       const todayExist: number[] = [];
       formsExist?.forEach((form) => {
@@ -50,6 +51,15 @@ const createForm = async (
         setUpdate(true);
       } else {
         console.log("Användarformulär är undefined eller null.");
+      }  */
+      // get todays form
+      const formsExit = await getTodaysForms(userId);
+      console.log(formsExit, today);
+      if (formsExit) {
+        console.log("form exist");
+      } else {
+        await createsAndSavesFormsToUserIfNotExist(userId, today);
+        setUpdate(true);
       }
     }
   } else {

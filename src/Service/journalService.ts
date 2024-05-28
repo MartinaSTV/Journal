@@ -29,7 +29,6 @@ const getTodaysForms = async (
     );
 
     const queryresponse = await getDocs(UserDataForm);
-    console.log(queryresponse);
     queryresponse.forEach((form) => {
       forms.push({ formdata: form.data() as IformData, formId: form.id });
     });

@@ -43,7 +43,7 @@ const AllJournals = () => {
     filteredByDate.sort((a, b) => {
       const parseTime = (timeStr: any) => {
         const [hours, minutes] = timeStr.split(".").map(Number);
-        return hours * 60 + minutes; // Omvandlar tiden till minuter
+        return hours * 60 + minutes;
       };
       const timeA = parseTime(a.formdata.show);
       const timeB = parseTime(b.formdata.show);

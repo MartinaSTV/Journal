@@ -7,17 +7,20 @@ import letter from "../assets/Icons/material-symbols_mail-outline.svg";
 import lock from "../assets/Icons/lock.svg";
 import { createUserAccount, logInAccount } from "../Service/LoginService";
 import Loading from "../componens/Loading";
+import UserDataAtom from "../atoms/userData";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
   const [, setToken] = useRecoilState(Token);
+  const [, setAllUserData] = useRecoilState(UserDataAtom);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
+    setAllUserData({ userName: username });
     const token = await logInAccount(username, password, setToken, setErrMsg);
     token ? navigate("/Journal") : navigate("/");
   };
