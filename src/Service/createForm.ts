@@ -1,4 +1,5 @@
 import {
+  Timestamp,
   addDoc,
   arrayUnion,
   collection,
@@ -107,6 +108,7 @@ const createsAndSavesFormsToUserIfNotExist = async (
       const formData = {
         userId: userId,
         date: formattedFormDate,
+        dateTimestamp: Timestamp.fromDate(new Date()),
         answer: answer,
         title: form.title,
         show: form.show,
