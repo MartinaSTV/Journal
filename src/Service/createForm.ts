@@ -1,4 +1,5 @@
 import {
+  Timestamp,
   addDoc,
   arrayUnion,
   collection,
@@ -10,9 +11,9 @@ import {
 } from "firebase/firestore";
 import { db } from "./Firebase";
 import { SetStateAction } from "react";
+import { getTodaysForms } from "./journalService";
 
-//TODO skapa forms på ett bättre sätt prestanda
-//TODO andra dagen så skapas dubbla formulär?? Dubbelkolla detta varför??
+//TODO skapa forms på ett bättre sätt prestanda mässigt
 
 const createForm = async (
   userId: string,
@@ -24,28 +25,16 @@ const createForm = async (
 
   if (userForms !== undefined) {
     if (userForms.length === 0) {
+      console.log("Längden är noll");
       await createsAndSavesFormsToUserIfNotExist(userId, today);
     } else {
-      const formsExist = await getForms(userId);
-      const todayExist: number[] = [];
-      formsExist?.forEach((form) => {
-        const formDate = new Date(form.formdata.date);
-        formDate.setHours(0, 0, 0, 0);
-
-        if (formDate.getTime() === today.getTime()) {
-          todayExist.push(1);
-          console.log("today exist");
-        } else {
-          console.log(`Form date ${formDate} is not equal to today ${today}`);
-        }
-      });
-      console.log(todayExist.length);
-
-      if (todayExist.length === 0) {
+      const formsExit = await getTodaysForms(userId);
+      console.log(formsExit, "formExistresp", today, "idag");
+      if (formsExit && formsExit?.length > 0) {
+        console.log("form exist");
+      } else {
         await createsAndSavesFormsToUserIfNotExist(userId, today);
         setUpdate(true);
-      } else {
-        console.log("Användarformulär är undefined eller null.");
       }
     }
   } else {
@@ -59,7 +48,8 @@ const createsAndSavesFormsToUserIfNotExist = async (
 ) => {
   console.log(
     "createsAndSavesFormsToUserIfNotExist anropas med userId:",
-    userId
+    userId,
+    "Mer än en gång??"
   );
   try {
     const formattedFormDate = `${today.getFullYear()} ${
@@ -103,6 +93,7 @@ const createsAndSavesFormsToUserIfNotExist = async (
       const formData = {
         userId: userId,
         date: formattedFormDate,
+        dateTimestamp: Timestamp.fromDate(new Date()),
         answer: answer,
         title: form.title,
         show: form.show,
@@ -112,8 +103,10 @@ const createsAndSavesFormsToUserIfNotExist = async (
       return saveForms(formData);
     });
 
-    await Promise.all(formPromises);
-    await saveFormIdsToUser(userId);
+    const formIds: any = await Promise.all(formPromises);
+    if (formIds !== undefined) {
+      await saveIdFormToUser(userId, formIds);
+    }
   } catch (error) {
     console.log(error, "Kunde inte skapa form och spara till användare");
   }
@@ -141,35 +134,12 @@ const getForms = async (
 
 const saveForms = async (formData: any) => {
   try {
-    await addDoc(collection(db, "JournalForm"), formData);
+    const formCreated = await addDoc(collection(db, "JournalForm"), formData);
     console.log("added form to db");
+    return formCreated.id;
   } catch (error) {
     console.log("Error", error);
   }
-};
-
-const saveFormIdsToUser = async (userId: string) => {
-  const formIds: string[] | undefined = await getFormsIdConnectedToUser(userId);
-  if (formIds !== undefined) await saveIdFormToUser(userId, formIds);
-};
-
-const getFormsIdConnectedToUser = async (
-  userId: string
-): Promise<string[] | undefined> => {
-  const formIdToAdd: string[] = [];
-  try {
-    const UserDataForm = query(
-      collection(db, "JournalForm"),
-      where("userId", "==", userId)
-    );
-    const querySnapshot = await getDocs(UserDataForm);
-    querySnapshot.forEach((doc) => {
-      formIdToAdd.push(doc.id);
-    });
-  } catch (error) {
-    console.log("Error", error);
-  }
-  return formIdToAdd;
 };
 
 const saveIdFormToUser = async (

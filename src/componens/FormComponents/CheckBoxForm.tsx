@@ -11,7 +11,7 @@ interface IcheckBox {
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
   setFormDataState: (formDataState: Ianswear[]) => void;
 }
-
+//TODO byta till radio buttons för att bara kunna välja en??
 const CheckBoxForm = ({
   checkBox,
   index,

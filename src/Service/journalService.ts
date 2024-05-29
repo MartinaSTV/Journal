@@ -5,41 +5,16 @@ import {
   where,
   updateDoc,
   doc,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "./Firebase";
 
 // TODO fixa felmedelande
-// TODO fixa index på firebase för att kunna ha flera queries
 
 const getTodaysForms = async (
   userId: string
 ): Promise<IresponseForm[] | undefined> => {
-  const today = new Date();
-  const formattedDateToday = `${today.getFullYear()} ${today.getMonth()} ${today.getDate()}`;
   const forms: IresponseForm[] = [];
-
-  try {
-    const UserDataForm = query(
-      collection(db, "JournalForm"),
-      where("userId", "==", userId)
-    );
-    const queryresponse = await getDocs(UserDataForm);
-
-    queryresponse.forEach((form) => {
-      const formDate = new Date(form.data().date);
-      const formattedFormDate = `${formDate.getFullYear()} ${formDate.getMonth()} ${formDate.getDate()}`;
-
-      if (formattedFormDate === formattedDateToday) {
-        forms.push({ formdata: form.data() as IformData, formId: form.id });
-      }
-    });
-
-    return forms;
-  } catch (error) {
-    console.log(error, "kunde inte hämta forms");
-  }
-
-  /* const forms: IresponseForm[] = [];
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -49,8 +24,8 @@ const getTodaysForms = async (
     const UserDataForm = query(
       collection(db, "JournalForm"),
       where("userId", "==", userId),
-      where("date", ">=", Timestamp.fromDate(today)),
-      where("date", "<", Timestamp.fromDate(tomorrow))
+      where("dateTimestamp", ">=", Timestamp.fromDate(today)),
+      where("dateTimestamp", "<", Timestamp.fromDate(tomorrow))
     );
 
     const queryresponse = await getDocs(UserDataForm);
@@ -62,7 +37,7 @@ const getTodaysForms = async (
   } catch (error) {
     console.error("Error in getForms:", error);
     return undefined;
-  } */
+  }
 };
 
 const updateIsFinalised = async (formId: string) => {

@@ -17,7 +17,7 @@ interface IuserData {
 const createUserAccount = async (
   email: string,
   password: string,
-
+  setToken: (token: string) => void,
   setErrMsg: (errMsg: string) => void
 ) => {
   const auth = getAuth(app);
@@ -29,26 +29,30 @@ const createUserAccount = async (
     );
     const user = userCredential.user;
 
-    console.log(user, "User", user.uid, "test", user.tenantId);
-
     const userData: IuserData = {
-      userName: "Ditt Namn",
+      userName: email,
       userId: user.uid,
       forms: [],
     };
+    const accessToken = await user.getIdToken();
     saveUserToDb(userData);
+    setToken(accessToken);
+    return accessToken;
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorMessage, errorCode);
-    setErrMsg("Kunde inte logga in");
+    setErrMsg(errorMessage);
   }
 };
 
 const saveUserToDb = async (userData: IuserData) => {
+  console.log(userData);
   try {
     const resp = await addDoc(collection(db, "users"), userData);
     console.log(resp, "added user to db");
+
+    //spara id globalt kan få tag på id på User
   } catch (error) {
     console.log("Error", error);
   }
@@ -69,11 +73,12 @@ const logInAccount = async (
     const user = userCredential.user;
     const accessToken = await user.getIdToken();
     setToken(accessToken);
+    return accessToken;
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);
-    setErrMsg("kunde inte logga in");
+    setErrMsg(errorMessage);
   }
 };
 

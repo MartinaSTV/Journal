@@ -11,31 +11,31 @@ const FormExistButton = ({ formData }: IformDataProps) => {
   const navigate = useNavigate();
 
   const isDisabled = () => {
-    /*   const times = ["07.30", "11.30", "15.00", "20.00"];
+    const times = ["07.30", "11.30", "15.00", "20.00"];
     const today = new Date();
     const currentTime = today.getTime();
-
     for (let i = 0; i < times.length; i++) {
-      if (formData.formdata.show === times[i]) {
-        const nextTime = times[i + 1];
-        if (!nextTime) {
+      if (times[i] === formData.formdata.show) {
+        const timeString = formData.formdata.show;
+        const timeParts = timeString.split(".");
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const day = today.getDate();
+        const formTime = new Date(
+          year,
+          month,
+          day,
+          Number(timeParts[0]),
+          Number(timeParts[1])
+        ).getTime();
+
+        if (formTime <= currentTime) {
+          return false;
+        } else {
           return true;
         }
-        const [hours, minutes] = nextTime
-          .split(".")
-          .map((n) => parseInt(n, 10));
-        const formDate = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate(),
-          hours,
-          minutes || 0
-        );
-        const formdateTime = formDate.getTime();
-
-        return currentTime <= formdateTime;
       }
-    } */
+    }
     return false;
   };
 
