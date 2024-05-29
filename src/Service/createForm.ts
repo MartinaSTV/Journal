@@ -13,8 +13,7 @@ import { db } from "./Firebase";
 import { SetStateAction } from "react";
 import { getTodaysForms } from "./journalService";
 
-//TODO skapa forms på ett bättre sätt prestanda
-//TODO andra dagen så skapas dubbla formulär?? Dubbelkolla detta varför??
+//TODO skapa forms på ett bättre sätt prestanda mässigt
 
 const createForm = async (
   userId: string,
