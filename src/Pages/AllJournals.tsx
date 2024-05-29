@@ -47,7 +47,6 @@ const AllJournals = () => {
       };
       const timeA = parseTime(a.formdata.show);
       const timeB = parseTime(b.formdata.show);
-
       return timeA - timeB;
     });
     setAllForms(filteredByDate);

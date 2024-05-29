@@ -28,7 +28,6 @@ const createUserAccount = async (
       password
     );
     const user = userCredential.user;
-    console.log(user, "User", user.uid, "test", user.tenantId);
 
     const userData: IuserData = {
       userName: email,
@@ -53,7 +52,7 @@ const saveUserToDb = async (userData: IuserData) => {
     const resp = await addDoc(collection(db, "users"), userData);
     console.log(resp, "added user to db");
 
-    //spara id globalt
+    //spara id globalt kan få tag på id på User
   } catch (error) {
     console.log("Error", error);
   }

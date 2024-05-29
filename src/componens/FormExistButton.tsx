@@ -29,8 +29,6 @@ const FormExistButton = ({ formData }: IformDataProps) => {
           Number(timeParts[1])
         ).getTime();
 
-        console.log(formTime);
-
         if (formTime <= currentTime) {
           return false;
         } else {

@@ -26,7 +26,6 @@ const JournalLandingPage = () => {
         setloading(true);
         try {
           await createForm(userId, setUpdate);
-          await getTodaysFormsData();
           setloading(false);
         } catch (error) {
           console.error("Error in fetchUserData:", error);
@@ -43,10 +42,12 @@ const JournalLandingPage = () => {
       getTodaysFormsData();
     }
   }, [userId, update]);
+
   useEffect(() => {
     if (userId) {
       getTodaysFormsData();
     }
+    sessionStorage.setItem("formDataState", JSON.stringify(""));
   }, []);
 
   const getTodaysFormsData = async () => {
