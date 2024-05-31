@@ -9,6 +9,7 @@ interface Itext {
   idxForm: number;
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
   setFormDataState: (formDataState: Ianswear[]) => void;
+  isDisable: boolean;
 }
 interface ISmiley {
   img: string;
@@ -24,6 +25,7 @@ const DropDown = ({
   idxForm,
   saveFromAnswers,
   setFormDataState,
+  isDisable,
 }: Itext) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [isHovered, setIsHovered] = useState({ hovered: false, index: -1 });
@@ -49,6 +51,7 @@ const DropDown = ({
         onClick={() => {
           setShowDropDown(!showDropDown);
         }}
+        disabled={isDisable === true}
         className={`flex shadow-md rounded-md h-[64px] items-center w-full items-center md:max-w-[400px]  ${
           chosenSmiley ? "bg-white border border-[#0F69BD]" : "bg-[#0F69BD]"
         }`}

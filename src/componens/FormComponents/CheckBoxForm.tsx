@@ -10,6 +10,7 @@ interface IcheckBox {
   idxForm: number;
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
   setFormDataState: (formDataState: Ianswear[]) => void;
+  isDisable: boolean;
 }
 //TODO byta till radio buttons för att bara kunna välja en??
 const CheckBoxForm = ({
@@ -20,6 +21,7 @@ const CheckBoxForm = ({
   idxForm,
   saveFromAnswers,
   setFormDataState,
+  isDisable,
 }: IcheckBox) => {
   const [chosenBox, setChosenBox] = useState({
     idx: -1,
@@ -92,6 +94,7 @@ const CheckBoxForm = ({
         name={`checkbox+${index}`}
         id={`checkbox-${idxForm}-${idxSubquestions}-${index}`}
         checked={chosenBox.idx === index}
+        disabled={isDisable === true}
       />
     </div>
   );

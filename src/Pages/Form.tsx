@@ -40,6 +40,7 @@ const Form = () => {
     useState<Ianswear[]>(initialFormDataState);
 
   const formId = data.state.formData.formId;
+  const isDisableT = data.state.formData.formdata.finalised;
   console.log(formId);
 
   useEffect(() => {
@@ -120,6 +121,7 @@ const Form = () => {
                 idxForm={idxForm}
                 setFormDataState={setFormDataState}
                 saveFromAnswers={saveFromAnswers}
+                isDisable={isDisableT}
               />
             ) : (
               <Feelings
@@ -127,6 +129,7 @@ const Form = () => {
                 idxForm={idxForm}
                 setFormDataState={setFormDataState}
                 saveFromAnswers={saveFromAnswers}
+                isDisable={isDisableT}
               />
             )}
             <section>
@@ -147,6 +150,7 @@ const Form = () => {
                       idxForm={idxForm}
                       setFormDataState={setFormDataState}
                       saveFromAnswers={saveFromAnswers}
+                      isDisable={isDisableT}
                     />
                   )}
                   {subquestion.checkBox &&
@@ -160,6 +164,7 @@ const Form = () => {
                         idxForm={idxForm}
                         setFormDataState={setFormDataState}
                         saveFromAnswers={saveFromAnswers}
+                        isDisable={isDisableT}
                       />
                     ))}
                   {
@@ -185,6 +190,7 @@ const Form = () => {
                           id={`subquestionTextField+${idxSubquestions}+${idxForm}form`}
                           className="shadow-inner rounded  m-5 h-[165px] p-5"
                           placeholder="Skriv här"
+                          disabled={isDisableT === true}
                         ></textarea>
                       )}
                     </div>
@@ -201,6 +207,7 @@ const Form = () => {
                         idxSubquestions={idxSubquestions}
                         idxForm={idxForm}
                         saveFromAnswers={saveFromAnswers}
+                        isDisable={isDisableT}
                       />
                     ))}
                 </div>

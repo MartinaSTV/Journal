@@ -10,6 +10,7 @@ interface IfeelingsProps {
   idxForm: number;
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
   setFormDataState: (formDataState: Ianswear[]) => void;
+  isDisable: boolean;
 }
 
 const Feelings = ({
@@ -17,6 +18,7 @@ const Feelings = ({
   idxForm,
   saveFromAnswers,
   setFormDataState,
+  isDisable,
 }: IfeelingsProps) => {
   const [chosenFeeling, setChoseFeeling] = useState({ feelingC: "", idx: -1 });
   const smileys = [
@@ -57,11 +59,12 @@ const Feelings = ({
   return (
     <button className="flex justify-around mt-5 mb-10 md:w-[500px]">
       {smileys.map((feeling, idx) => (
-        <div
+        <button
           onClick={() => {
             saveSmileytoDatabase(feeling.text);
             setChoseFeeling({ feelingC: feeling.text, idx: idx });
           }}
+          disabled={isDisable === true}
           className="flex flex-col cursor-pointer"
           key={idx + "feeling"}
         >
@@ -76,7 +79,7 @@ const Feelings = ({
             }`}
           />
           <h3 className="mt-5 font-medium">{feeling.text}</h3>
-        </div>
+        </button>
       ))}
     </button>
   );
