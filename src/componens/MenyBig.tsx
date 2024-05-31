@@ -8,8 +8,8 @@ import UserAtom from "../atoms/user";
 
 const MenuBig = () => {
   const [, setToken] = useRecoilState(Token);
-  const navigate = useNavigate();
   const [, setUserId] = useRecoilState(UserAtom);
+  const navigate = useNavigate();
 
   const pages = [
     { title: "Hem", url: "/Journal" },

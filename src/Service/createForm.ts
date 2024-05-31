@@ -14,11 +14,13 @@ import { SetStateAction } from "react";
 import { getTodaysForms } from "./journalService";
 
 //TODO skapa forms på ett bättre sätt prestanda mässigt
+//TODO skapas dubbleter om man är inloggad och väntar en dag
 
 const createForm = async (
   userId: string,
   setUpdate: { (value: SetStateAction<boolean>): void; (arg0: boolean): void }
 ) => {
+  console.log(userId);
   const userForms: string[] | undefined = await getUserFormIdInUser(userId);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -27,6 +29,7 @@ const createForm = async (
     if (userForms.length === 0) {
       console.log("Längden är noll");
       await createsAndSavesFormsToUserIfNotExist(userId, today);
+      setUpdate(true);
     } else {
       const formsExit = await getTodaysForms(userId);
       console.log(formsExit, "formExistresp", today, "idag");

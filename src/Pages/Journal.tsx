@@ -11,13 +11,14 @@ import UserAtom from "../atoms/user";
 import Loading from "../componens/Loading";
 import UserDataAtom from "../atoms/userData";
 
+//TODO varför laddas alla sidor om efter navigering
+
 const JournalLandingPage = () => {
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
   const [allUserData] = useRecoilState(UserDataAtom);
   const [update, setUpdate] = useState(false);
   const [loading, setloading] = useState(false);
-
   onChangeAuth(setUserId);
 
   useEffect(() => {
@@ -33,7 +34,6 @@ const JournalLandingPage = () => {
         }
       }
     };
-
     fetchUserData();
   }, [userId]);
 
@@ -65,7 +65,7 @@ const JournalLandingPage = () => {
       setAllForms([...forms]);
     }
   };
-
+  console.log(allForms);
   return (
     <section
       className="flex flex-col max-w-[1500px] relative "

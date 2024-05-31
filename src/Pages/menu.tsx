@@ -8,6 +8,9 @@ const Meny = () => {
   const navigate = useNavigate();
   const [, setToken] = useRecoilState(Token);
   const [, setUserId] = useRecoilState(UserAtom);
+
+  console.log("meny");
+
   const pages = [
     { title: "Se alla inlägg", url: "/AllJournals" },
     { title: "Sammanställning av svar", url: "/CompilationJournal" },

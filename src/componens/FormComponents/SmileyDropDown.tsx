@@ -30,22 +30,11 @@ const DropDown = ({
   const [chosenSmiley, setChosenSmiley] = useState<ISmiley>();
 
   useEffect(() => {
-    const smiley = [];
-    for (let i = 0; i < data.length; i++) {
-      if (formDataState[idxForm]?.qustion) {
-        if (data[i].textValue === formDataState[idxForm].qustion) {
-          const choseExist = {
-            img: data[i].img,
-            value: data[i].value,
-            textValue: formDataState[idxForm].qustion,
-          };
-          smiley.push(choseExist);
-        }
-      }
-    }
-
-    setChosenSmiley(smiley[0]);
-  }, [formDataState, idxForm]);
+    const smiley = data.find(
+      (data) => data.textValue === formDataState[idxForm]?.qustion
+    );
+    setChosenSmiley(smiley || undefined);
+  }, [formDataState, idxForm, data]);
 
   const saveSmileytoDatabase = (smiley: ISmiley) => {
     const updatedFormDataState = [...formDataState];
@@ -109,13 +98,13 @@ const DropDown = ({
                ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
                 isHovered.hovered && isHovered.index === idx
                   ? smiley.value === 1
-                    ? "bg-[#0FBD7E] bg-opacity-15"
+                    ? "bg-Green bg-opacity-15"
                     : smiley.value === 2
-                    ? "bg-[#2EC3B1] bg-opacity-15"
+                    ? "bg-Teal bg-opacity-15"
                     : smiley.value === 3
-                    ? "bg-[#14A0DC] bg-opacity-15"
+                    ? "bg-Blue bg-opacity-15"
                     : smiley.value === 4
-                    ? "bg-DarkBlue bg-opacity-15"
+                    ? "bg-arkBlue bg-opacity-15"
                     : smiley.value === 5
                     ? "bg-Purple bg-opacity-15"
                     : smiley.value === 6
@@ -126,7 +115,7 @@ const DropDown = ({
                     ? "bg-Orange bg-opacity-15"
                     : smiley.value === 9
                     ? "bg-RedOrange bg-opacity-15"
-                    : "bg-Red bg-opacity-15"
+                    : "bg-[#E70B0B] bg-opacity-15"
                   : ""
               }`}
             >

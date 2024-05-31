@@ -40,6 +40,7 @@ const Form = () => {
     useState<Ianswear[]>(initialFormDataState);
 
   const formId = data.state.formData.formId;
+  console.log(formId);
 
   useEffect(() => {
     sessionStorage.setItem("formDataState", JSON.stringify(formDataState));

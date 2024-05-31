@@ -23,6 +23,6 @@ interface IUserData {
 const UserDataAtom = atom<IUserData>({
   key: "allUserDataStorage",
   default: { userName: "" },
-  effects: [localStorageEffect("userEffect")],
+  effects: [localStorageEffect("userEffectDataUser")],
 });
 export default UserDataAtom;

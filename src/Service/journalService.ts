@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./Firebase";
 
-// TODO fixa felmedelande
+// TODO fixa bättre felmedelande
 
 const getTodaysForms = async (
   userId: string
