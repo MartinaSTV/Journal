@@ -57,7 +57,7 @@ const Feelings = ({
   };
 
   return (
-    <button className="flex justify-around mt-5 mb-10 md:w-[500px]">
+    <section className="flex justify-around mt-5 mb-10 md:w-[500px]">
       {smileys.map((feeling, idx) => (
         <button
           onClick={() => {
@@ -81,7 +81,7 @@ const Feelings = ({
           <h3 className="mt-5 font-medium">{feeling.text}</h3>
         </button>
       ))}
-    </button>
+    </section>
   );
 };
 export default Feelings;

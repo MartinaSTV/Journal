@@ -222,7 +222,7 @@ const Form = () => {
               setTimeout(() => {
                 navigate("/Journal");
               }, 1000);
-              // visa medelande att formuläret är sparat som finalised.
+              // visa medelande att formuläret är sparat som klart.
             } catch (error) {
               console.log(error);
             }

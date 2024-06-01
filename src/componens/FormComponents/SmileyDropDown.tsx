@@ -45,6 +45,51 @@ const DropDown = ({
     setFormDataState([...updatedFormDataState]);
   };
 
+  const getBackgroundClass = (
+    idx: number,
+    smileyValue: number,
+    isHovered: boolean
+  ) => {
+    let baseClass = idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white";
+    if (isHovered) {
+      switch (smileyValue) {
+        case 1:
+          baseClass = " bg-Green bg-opacity-15";
+          break;
+        case 2:
+          baseClass = " bg-Teal bg-opacity-15";
+          break;
+        case 3:
+          baseClass = " bg-Blue bg-opacity-15";
+          break;
+        case 4:
+          baseClass = " bg-DarkBlue bg-opacity-15";
+          break;
+        case 5:
+          baseClass = " bg-Purple bg-opacity-15";
+          break;
+        case 6:
+          baseClass = " bg-Violet bg-opacity-15";
+          break;
+        case 7:
+          baseClass = " bg-Pink bg-opacity-15";
+          break;
+        case 8:
+          baseClass = " bg-Orange bg-opacity-15";
+          break;
+        case 9:
+          baseClass = " bg-RedOrange bg-opacity-15";
+          break;
+        case 10:
+          baseClass = " bg-Red bg-opacity-15";
+          break;
+        default:
+          break;
+      }
+    }
+    return baseClass;
+  };
+
   return (
     <div className="ml-4 mr-4 mb-5 mt-5">
       <button
@@ -96,7 +141,7 @@ const DropDown = ({
               onMouseLeave={() => {
                 setIsHovered({ hovered: false, index: -1 });
               }}
-              key={idx}
+              /* key={idx}
               className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px]
                ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
                 isHovered.hovered && isHovered.index === idx
@@ -118,9 +163,14 @@ const DropDown = ({
                     ? "bg-Orange bg-opacity-15"
                     : smiley.value === 9
                     ? "bg-RedOrange bg-opacity-15"
-                    : "bg-[#E70B0B] bg-opacity-15"
+                    : "bg-Red bg-opacity-15"
                   : ""
-              }`}
+              }`} */
+              className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px] ${getBackgroundClass(
+                idx,
+                smiley.value,
+                isHovered.hovered && isHovered.index === idx
+              )}`}
             >
               {type === "Hur är din ångest/oro nu?" && (
                 <img

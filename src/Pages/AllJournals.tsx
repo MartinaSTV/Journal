@@ -10,6 +10,7 @@ import AllFormsBtn from "../componens/AllFormsBtn";
 import MenuBottomBar from "../componens/MenyBottomBar";
 
 //TODO default input skall inte kunna ändras här.
+//TODO ifDisabled changeOpacity
 
 const AllJournals = () => {
   const [userId] = useRecoilState(User);
