@@ -51,7 +51,7 @@ const FormExistButton = ({ formData }: IformDataProps) => {
         <img src={checkMark} alt="bock" className="ml-5" />
       )}
       {isDisabled() && <img src={lock} alt="lås" className="ml-5" />}
-      <h4 className="ml-auto mr-auto">{formData.formdata.title}</h4>
+      <h2 className="ml-auto mr-auto">{formData.formdata.title}</h2>
       <div className="mr-5 flex">
         <img src={clock} alt="klocka" className="mr-2" />
         <p>{formData.formdata.show}</p>

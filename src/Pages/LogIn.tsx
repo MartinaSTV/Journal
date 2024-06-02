@@ -7,20 +7,20 @@ import letter from "../assets/Icons/material-symbols_mail-outline.svg";
 import lock from "../assets/Icons/lock.svg";
 import { createUserAccount, logInAccount } from "../Service/LoginService";
 import Loading from "../componens/Loading";
-import UserDataAtom from "../atoms/userData";
+//import UserDataAtom from "../atoms/userData";
 
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
   const [, setToken] = useRecoilState(Token);
-  const [, setAllUserData] = useRecoilState(UserDataAtom);
+  //const [, setAllUserData] = useRecoilState(UserDataAtom);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
-    setAllUserData({ userName: username });
+    //setAllUserData({ userName: username });
     const token = await logInAccount(username, password, setToken, setErrMsg);
     token ? navigate("/Journal") : navigate("/");
   };
@@ -43,7 +43,7 @@ const LogIn = () => {
 
   return (
     <section
-      className="flex flex-col max-w-[1500px] "
+      className="flex flex-col max-w-[1500px] ml-auto mr-auto "
       style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -57,13 +57,14 @@ const LogIn = () => {
         className=" font-bold shadow bg-white text-black rounded w-[173px] h-[55px] mt-10 ml-auto mr-4"
         onClick={() => {
           setErrMsg("");
+          setloading(false);
           type ? setType(false) : setType(true);
         }}
       >
         {type ? "Gå tillbaka" : "Skapa nytt konto"}
       </button>
       <div className="w-screen flex mt-20 ">
-        <h1 className=" text-white m-auto text-4xl font-normal  md:text-5xl ">
+        <h1 className=" text-white m-auto text-4xl font-normal  md:text-5xl md:mr-auto md:mr-auto ">
           Ångest Dagbok
         </h1>
       </div>
@@ -127,7 +128,9 @@ const LogIn = () => {
         >
           {!type ? "Logga in" : "Skapa konto"}
         </button>
-        {loading && <Loading text={"Loggar in.."} />}
+        <div className="mt-10">
+          {loading && <Loading text={"Loggar in.."} />}
+        </div>
       </form>
     </section>
   );

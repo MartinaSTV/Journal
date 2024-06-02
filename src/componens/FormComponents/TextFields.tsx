@@ -8,6 +8,7 @@ interface Iinput {
   idxSubquestions: number;
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;
   setFormDataState: (formDataState: Ianswear[]) => void;
+  isDisable: boolean;
 }
 
 const Textfields = ({
@@ -18,8 +19,10 @@ const Textfields = ({
   idxSubquestions,
   saveFromAnswers,
   setFormDataState,
+  isDisable,
 }: Iinput) => {
   const [defaultV, setDefaultV] = useState<string>("");
+  console.log(isDisable);
 
   useEffect(() => {
     let defaultValue: string = "";
@@ -63,6 +66,7 @@ const Textfields = ({
         defaultValue={defaultV}
         className="shadow-inner rounded mb-5 h-[165px] p-5"
         placeholder="Skriv här"
+        disabled={isDisable === true}
       />
     </div>
   );

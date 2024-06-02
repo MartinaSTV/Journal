@@ -11,29 +11,18 @@ import UserAtom from "../atoms/user";
 import Loading from "../componens/Loading";
 import UserDataAtom from "../atoms/userData";
 
+//TODO varför laddas alla sidor om efter navigering
+//TODO varför blir det dubbletter om man stannar som inloggad efter en dag
+
 const JournalLandingPage = () => {
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
   const [allUserData] = useRecoilState(UserDataAtom);
   const [update, setUpdate] = useState(false);
   const [loading, setloading] = useState(false);
-
   onChangeAuth(setUserId);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (userId) {
-        setloading(true);
-        try {
-          await createForm(userId, setUpdate);
-          setloading(false);
-        } catch (error) {
-          console.error("Error in fetchUserData:", error);
-          setloading(false);
-        }
-      }
-    };
-
     fetchUserData();
   }, [userId]);
 
@@ -41,14 +30,21 @@ const JournalLandingPage = () => {
     if (userId) {
       getTodaysFormsData();
     }
+    sessionStorage.setItem("formDataState", JSON.stringify(""));
   }, [userId, update]);
 
-  useEffect(() => {
+  const fetchUserData = async () => {
     if (userId) {
-      getTodaysFormsData();
+      setloading(true);
+      try {
+        await createForm(userId, setUpdate);
+        setloading(false);
+      } catch (error) {
+        console.error("Error in fetchUserData:", error);
+        setloading(false);
+      }
     }
-    sessionStorage.setItem("formDataState", JSON.stringify(""));
-  }, []);
+  };
 
   const getTodaysFormsData = async () => {
     const forms = await getTodaysForms(userId);

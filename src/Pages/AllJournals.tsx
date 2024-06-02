@@ -9,6 +9,9 @@ import MenuBig from "../componens/MenyBig";
 import AllFormsBtn from "../componens/AllFormsBtn";
 import MenuBottomBar from "../componens/MenyBottomBar";
 
+//TODO default input skall inte kunna ändras här.
+//TODO ifDisabled changeOpacity
+
 const AllJournals = () => {
   const [userId] = useRecoilState(User);
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
@@ -19,11 +22,15 @@ const AllJournals = () => {
   onChangeAuth(setUserId);
 
   useEffect(() => {
+    sessionStorage.setItem("formDataState", JSON.stringify(""));
     const getData = async () => {
       const forms = await getForms(userId);
       if (forms !== undefined) {
-        setAllForms([...forms]);
-        setAllFormsCopy([...forms]);
+        const isFinalised = forms.filter(
+          (data) => data.formdata.finalised === true
+        );
+        setAllForms([...isFinalised]);
+        setAllFormsCopy([...isFinalised]);
       }
     };
     getData();

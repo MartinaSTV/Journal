@@ -23,7 +23,7 @@ const AllFormsBtn = ({ data }: IAllFormsProps) => {
         <img src={dateIcon} alt="Kalender ikon" />
         <p className="ml-3">{data.formdata.date}</p>
       </div>
-      <button className="ml-auto mr-5 bg-black text-white p-2 rounded">
+      <button className="ml-auto mr-5 bg-black opacity-[85%] text-white p-2 rounded">
         Ta bort
       </button>
     </div>
