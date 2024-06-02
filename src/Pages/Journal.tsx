@@ -62,7 +62,6 @@ const JournalLandingPage = () => {
     }
   };
 
-  console.log(allForms);
   return (
     <section
       className="flex flex-col max-w-[1500px] relative "
