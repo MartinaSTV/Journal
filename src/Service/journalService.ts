@@ -21,21 +21,30 @@ const getTodaysForms = async (
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
-    const UserDataForm = query(
+    const startOfDayTimestamp = Timestamp.fromDate(today);
+    const endOfDayTimestamp = Timestamp.fromDate(tomorrow);
+
+    const userDataFormQuery = query(
       collection(db, "JournalForm"),
       where("userId", "==", userId),
-      where("dateTimestamp", ">=", Timestamp.fromDate(today)),
-      where("dateTimestamp", "<", Timestamp.fromDate(tomorrow))
+      where("dateTimestamp", ">=", startOfDayTimestamp),
+      where("dateTimestamp", "<", endOfDayTimestamp)
     );
 
-    const queryresponse = await getDocs(UserDataForm);
-    queryresponse.forEach((form) => {
-      forms.push({ formdata: form.data() as IformData, formId: form.id });
+    const querySnapshot = await getDocs(userDataFormQuery);
+
+    if (querySnapshot.empty) {
+      console.log("No forms found for today.");
+      return forms;
+    }
+
+    querySnapshot.forEach((doc) => {
+      forms.push({ formdata: doc.data() as IformData, formId: doc.id });
     });
 
     return forms;
   } catch (error) {
-    console.error("Error in getForms:", error);
+    console.error("Error in getTodaysForms:", error);
     return undefined;
   }
 };
@@ -62,4 +71,5 @@ const updateFormAnswer = async (formId: string, answer: Ianswear[]) => {
     console.log(error);
   }
 };
+
 export { getTodaysForms, updateIsFinalised, updateFormAnswer };

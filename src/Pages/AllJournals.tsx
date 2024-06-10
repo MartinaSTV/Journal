@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import User from "../atoms/user";
-import { getForms } from "../Service/createForm";
+import { deleteForm, getForms } from "../Service/allformService";
 import { onChangeAuth } from "../Service/LoginService";
 import UserAtom from "../atoms/user";
 import bgBig from "../assets/bgBig.png";
 import MenuBig from "../componens/MenyBig";
 import AllFormsBtn from "../componens/AllFormsBtn";
 import MenuBottomBar from "../componens/MenyBottomBar";
-
-//TODO default input skall inte kunna ändras här.
-//TODO ifDisabled changeOpacity
 
 const AllJournals = () => {
   const [userId] = useRecoilState(User);
@@ -19,6 +16,7 @@ const AllJournals = () => {
   const [, setUserId] = useRecoilState(UserAtom);
   const [fromDate, setFromDate] = useState<Date>(new Date());
   const [toDate, setToDate] = useState<Date>(new Date());
+  const [update, setUpdate] = useState("");
   onChangeAuth(setUserId);
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const AllJournals = () => {
       }
     };
     getData();
-  }, []);
+  }, [update]);
 
   const FilterByDate = () => {
     const filteredByDate = allFormsCopy.filter((form) => {
@@ -116,7 +114,17 @@ const AllJournals = () => {
         <div className=" min-w-[280px] flex flex-col max-w-[339px] mr-5 ml-5 md:max-w-[75%]">
           {allForms?.length > 0 &&
             allForms.map((data, idx) => (
-              <AllFormsBtn key={idx + "allforms"} data={data} />
+              <div className="relative " key={idx + "allforms"}>
+                <AllFormsBtn data={data} />{" "}
+                <button
+                  onClick={() => {
+                    deleteForm(data, setUpdate);
+                  }}
+                  className="ml-auto absolute bg-black opacity-[85%] text-white p-2 rounded top-8 right-5"
+                >
+                  Ta bort
+                </button>
+              </div>
             ))}
         </div>
       </section>

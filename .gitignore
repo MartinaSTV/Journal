@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 .env
+journal-service-key.json
 dist-ssr
 *.local
 

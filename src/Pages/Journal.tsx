@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import bgBig from "../assets/bgBig.png";
 import { onChangeAuth } from "../Service/LoginService";
-import { createForm } from "../Service/createForm";
 import MenuBottomBar from "../componens/MenyBottomBar";
 import { useEffect, useState } from "react";
 import MenuBig from "../componens/MenyBig";
@@ -11,43 +10,28 @@ import UserAtom from "../atoms/user";
 import Loading from "../componens/Loading";
 import UserDataAtom from "../atoms/userData";
 
-//TODO varför laddas alla sidor om efter navigering
-//TODO varför blir det dubbletter om man stannar som inloggad efter en dag
-
 const JournalLandingPage = () => {
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
   const [allUserData] = useRecoilState(UserDataAtom);
-  const [update, setUpdate] = useState(false);
+  const [update] = useState(new Date());
   const [loading, setloading] = useState(false);
+  const [bgImageLoaded, setBgImageLoaded] = useState(false);
   onChangeAuth(setUserId);
 
   useEffect(() => {
-    fetchUserData();
-  }, [userId]);
-
-  useEffect(() => {
+    console.log(userId);
     if (userId) {
       getTodaysFormsData();
     }
     sessionStorage.setItem("formDataState", JSON.stringify(""));
   }, [userId, update]);
 
-  const fetchUserData = async () => {
-    if (userId) {
-      setloading(true);
-      try {
-        await createForm(userId, setUpdate);
-        setloading(false);
-      } catch (error) {
-        console.error("Error in fetchUserData:", error);
-        setloading(false);
-      }
-    }
-  };
-
   const getTodaysFormsData = async () => {
+    setloading(true);
     const forms = await getTodaysForms(userId);
+
+    setloading(false);
     if (forms !== undefined) {
       forms.sort((a, b) => {
         const parseTime = (timeStr: any) => {
@@ -58,9 +42,17 @@ const JournalLandingPage = () => {
         const timeB = parseTime(b.formdata.show);
         return timeA - timeB;
       });
+
       setAllForms([...forms]);
     }
   };
+  useEffect(() => {
+    const img = new Image();
+    img.src = bgBig;
+    img.onload = () => {
+      setBgImageLoaded(true);
+    };
+  }, []);
 
   return (
     <section
@@ -68,9 +60,9 @@ const JournalLandingPage = () => {
       style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        backgroundImage: `url(${bgBig})`,
         backgroundSize: "cover",
         minHeight: "100vh",
+        backgroundImage: bgImageLoaded ? `url(${bgBig})` : "none",
       }}
     >
       <MenuBig />

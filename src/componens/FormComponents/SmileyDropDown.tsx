@@ -141,31 +141,7 @@ const DropDown = ({
               onMouseLeave={() => {
                 setIsHovered({ hovered: false, index: -1 });
               }}
-              /* key={idx}
-              className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px]
-               ${idx % 2 === 1 ? "bg-[#F5F5F5]" : "bg-white"} ${
-                isHovered.hovered && isHovered.index === idx
-                  ? smiley.value === 1
-                    ? "bg-Green bg-opacity-15"
-                    : smiley.value === 2
-                    ? "bg-Teal bg-opacity-15"
-                    : smiley.value === 3
-                    ? "bg-Blue bg-opacity-15"
-                    : smiley.value === 4
-                    ? "bg-arkBlue bg-opacity-15"
-                    : smiley.value === 5
-                    ? "bg-Purple bg-opacity-15"
-                    : smiley.value === 6
-                    ? "bg-Violet bg-opacity-15"
-                    : smiley.value === 7
-                    ? "bg-Pink bg-opacity-15"
-                    : smiley.value === 8
-                    ? "bg-Orange bg-opacity-15"
-                    : smiley.value === 9
-                    ? "bg-RedOrange bg-opacity-15"
-                    : "bg-Red bg-opacity-15"
-                  : ""
-              }`} */
+              key={idx}
               className={`grid grid-cols-6 h-[64px] items-center w-full md:max-w-[400px] ${getBackgroundClass(
                 idx,
                 smiley.value,

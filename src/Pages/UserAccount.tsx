@@ -3,7 +3,6 @@ import MenuBig from "../componens/MenyBig";
 import MenuBottomBar from "../componens/MenyBottomBar";
 
 const UserAccount = () => {
-  console.log("UserAccount component rendered");
   return (
     <section
       className="flex flex-col max-w-[1500px] ml-auto mr-auto relative  "
