@@ -48,12 +48,14 @@ const FormExistButton = ({ formData }: IformDataProps) => {
       className={`border max-w-[339px] m-5 h-[70px]  flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px] `}
     >
       {formData.formdata.finalised === true && (
-        <img src={checkMark} alt="bock" className="ml-5" />
+        <img src={checkMark} alt="bock" className="ml-5  h-[40px]" />
       )}
-      {isDisabled() && <img src={lock} alt="lås" className="ml-5" />}
+      {isDisabled() && (
+        <img src={lock} alt="lås" className="ml-5 w-[25px] h-[25px]" />
+      )}
       <h2 className="ml-auto mr-auto">{formData.formdata.title}</h2>
       <div className="mr-5 flex">
-        <img src={clock} alt="klocka" className="mr-2" />
+        <img src={clock} alt="klocka" className="mr-2  w-[30px] h-[30px]" />
         <p>{formData.formdata.show}</p>
       </div>
     </button>

@@ -25,7 +25,7 @@ const MenuBottomBar = () => {
         }}
         href=""
       >
-        <img src={homeIcon} alt="Hus" className="w-[20px]" />
+        <img src={homeIcon} alt="Hus" className="w-[20px] " />
         <p>Hem</p>
       </a>
       <a

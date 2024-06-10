@@ -47,10 +47,14 @@ const MenuBig = () => {
             href=""
           >
             {pages.title === "Hem" && (
-              <img src={homeIcon} alt="Hus Hem" className="mr-4" />
+              <img src={homeIcon} alt="Hus Hem" className="mr-4 h-[30px]" />
             )}
             {pages.title === "Logga ut" && (
-              <img src={logoutIcon} alt="Öppnad dörr ut" className="mr-4" />
+              <img
+                src={logoutIcon}
+                alt="Öppnad dörr ut"
+                className="mr-4 h-[30px]"
+              />
             )}
 
             <p className="w-full hover:border-b"> {pages.title}</p>
