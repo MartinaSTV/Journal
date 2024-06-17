@@ -27,3 +27,9 @@ interface IformData {
   show: string;
   finalised: boolean;
 }
+interface IUserData {
+  userName: string;
+  userId: string;
+  forms: [];
+  imgUrl: string;
+}

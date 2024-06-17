@@ -3,8 +3,6 @@ import cron from "node-cron";
 import admin from "firebase-admin";
 import serviceAccount from "./journal-service-key.json" assert { type: "json" };
 
-//TODO Clod port??.
-
 // Initialisera Firebase Admin SDK med service account
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -210,5 +208,3 @@ app.get(`/http://localhost:${PORT}`, (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-//export const api = functions.https.onRequest(app);

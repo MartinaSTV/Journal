@@ -12,7 +12,6 @@ const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
   const [, setToken] = useRecoilState(Token);
-  //const [, setAllUserData] = useRecoilState(UserDataAtom);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
@@ -63,7 +62,7 @@ const LogIn = () => {
       </button>
       <div className="w-screen flex mt-20 ">
         <h1 className=" text-white m-auto text-4xl font-normal  md:text-5xl md:mr-auto md:mr-auto ">
-          Ångest Dagbok
+          Hur mår du?
         </h1>
       </div>
       {ErrMsg !== "" && (
@@ -82,7 +81,6 @@ const LogIn = () => {
             <label className="ml-2 " htmlFor={`username+${type}`}>
               Emailadress
               <span className="font-light text-xs ml-2">
-                {" "}
                 ex: namn@gmail.com
               </span>
             </label>

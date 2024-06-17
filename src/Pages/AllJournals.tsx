@@ -59,7 +59,7 @@ const AllJournals = () => {
 
   return (
     <section
-      className="flex flex-col max-w-[1500px] ml-auto mr-auto relative "
+      className="flex flex-col max-w-[1500px] ml-auto mr-auto relative"
       style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -72,7 +72,7 @@ const AllJournals = () => {
       <h1 className="text-white text-4xl font-normal mt-10 ml-5 max-w-[300px] md:text-5xl md:max-w-full ">
         Dina dagboksinlägg
       </h1>
-      <article className="flex flex-col ml-5 mr-5 mb-10 mt-10 text-white font-medium md:flex-row md:items-center">
+      <article className="flex flex-col ml-5 mr-5 mb-10 mt-10 text-white  min-h-[100vh] font-medium md:flex-row md:items-center">
         <div className="flex flex-col w-[213px]">
           <label htmlFor="fromDate">Från datum</label>
           <input
