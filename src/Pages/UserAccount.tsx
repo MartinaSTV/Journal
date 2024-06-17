@@ -33,7 +33,7 @@ const UserAccount = () => {
           Ditt Konto
         </h1>
         <img
-          src={userData.imgUrl || defaultImg}
+          src={userData.ImgUrl || defaultImg}
           alt="profil bild"
           className="w-[90px] ml-auto mr-10 mt-5 rounded-full shadow-md "
         />
