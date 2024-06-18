@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { app, db } from "../Service/Firebase";
 import { addDoc, collection } from "firebase/firestore";
@@ -111,4 +112,35 @@ const logOut = async (setAndNavigate: () => void) => {
     });
 };
 
-export { createUserAccount, logInAccount, onChangeAuth, logOut };
+const resetPasswordSendMail = (
+  email: string,
+  setResetPassword: (msg: string) => void
+) => {
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      setResetPassword(
+        "Länk skickat till din mail för att återställa ditt lösenord"
+      );
+      setTimeout(() => {
+        setResetPassword("");
+      }, 2000);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setResetPassword("Kunde inte återställa ditt lösenord");
+      setTimeout(() => {
+        setResetPassword("");
+      }, 2000);
+    });
+};
+
+export {
+  createUserAccount,
+  logInAccount,
+  onChangeAuth,
+  logOut,
+  resetPasswordSendMail,
+};

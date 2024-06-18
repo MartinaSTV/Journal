@@ -5,9 +5,14 @@ import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
 import letter from "../assets/Icons/material-symbols_mail-outline.svg";
 import lock from "../assets/Icons/lock.svg";
-import { createUserAccount, logInAccount } from "../Service/LoginService";
+import {
+  createUserAccount,
+  logInAccount,
+  resetPasswordSendMail,
+} from "../Service/LoginService";
 import Loading from "../componens/Loading";
 
+// TODO reset password btn and function
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
@@ -15,6 +20,8 @@ const LogIn = () => {
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
+  const [resetPassword, setResetPassword] = useState("");
+  const [mailToReset, setMailToReset] = useState("");
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
@@ -115,6 +122,20 @@ const LogIn = () => {
             placeholder="Lösenord"
           />
         </div>
+
+        <button
+          onClick={() => {
+            console.log("klick");
+            resetPasswordSendMail(username, setResetPassword);
+          }}
+          className="mt-5 mb-5 border rounded w-[173px] h-[40px]"
+        >
+          Glömt lösenord
+        </button>
+        {resetPassword !== "" && (
+          <p className="ml-5font-light">{resetPassword}</p>
+        )}
+
         <button
           type="submit"
           className=" shadow bg-white text-black rounded w-[173px] h-[55px] mt-10 ml-auto"

@@ -34,7 +34,6 @@ const JournalLandingPage = () => {
     try {
       const data = await getUserData(userId);
       if (data) setUserData(data);
-      console.log(data?.ImgUrl, data, "Fetched user data");
     } catch (error) {}
   };
 

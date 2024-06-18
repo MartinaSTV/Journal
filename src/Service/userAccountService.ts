@@ -43,7 +43,11 @@ const saveBlob = async (blob: Blob): Promise<string> => {
   return downloadURL;
 };
 
-const saveUserPicure = async (userData: IUserData, userId: String) => {
+const saveUserPicure = async (
+  userData: IUserData,
+  userId: String,
+  setShowMessage: (f: string) => void
+) => {
   const userQuery = query(
     collection(db, "users"),
     where("userId", "==", userId)
@@ -56,12 +60,19 @@ const saveUserPicure = async (userData: IUserData, userId: String) => {
       const updateRef = doc(db, "users", userDoc.id);
       // Uppdatera användarens dokument i Firestore med den nya bild-URL:en
       await updateDoc(updateRef, {
-        ImgUrl: userData.imgUrl,
+        ImgUrl: userData.ImgUrl,
       });
-
+      setShowMessage("Bild sparad");
       console.log("Bild-URL uppdaterad i Firestore");
+      setTimeout(() => {
+        setShowMessage("");
+      }, 5000);
     } else {
       console.log("No user found with the given userId");
+      setShowMessage("Kunde inte spara bild");
+      setTimeout(() => {
+        setShowMessage("");
+      }, 5000);
     }
   } catch (error) {
     console.error("Fel vid uppdatering av Firestore:", error);

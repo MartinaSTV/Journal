@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import UserDataAtom from "../atoms/userData";
 import { useRecoilState } from "recoil";
 import { saveBlob, saveUserPicure } from "../Service/userAccountService";
 import UserAtom from "../atoms/user";
 
-//TODO medelande bild ändrad
-//Todo Fix URL from firebase
 const ProfileImageUploader = () => {
   const [profilePicture, setProfilePicture] = useState<File | string>("");
   const editorRef = useRef<AvatarEditor | null>(null);
   const [userData, setUserData] = useRecoilState(UserDataAtom);
   const [userId] = useRecoilState(UserAtom);
+  const [showMessage, setShowMessage] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -30,17 +29,14 @@ const ProfileImageUploader = () => {
           const URL = await saveBlob(blob);
           const updatedUserData = {
             ...userData,
-            imgUrl: URL,
+            ImgUrl: URL,
           };
           setUserData(updatedUserData);
-          saveUserPicure(updatedUserData, userId);
+          saveUserPicure(updatedUserData, userId, setShowMessage);
         }
       }, "image/png");
     }
   };
-  useEffect(() => {
-    console.log(userData);
-  }, []);
 
   return (
     <div className="flex flex-col">
@@ -64,14 +60,17 @@ const ProfileImageUploader = () => {
           onChange={handleFileChange}
           className="bg-white w-[250px] h-[100px] mt-4"
         />
-        <button
-          onClick={() => {
-            onClickSave();
-          }}
-          className="bg-white text-black p-2 rounded max-w-[173px] max-h-[50px] hover:opacity-[100%] mt-10"
-        >
-          Ändra bild
-        </button>
+        <div className="flex items-center">
+          <button
+            onClick={() => {
+              onClickSave();
+            }}
+            className="bg-white text-black p-2 rounded max-w-[173px] max-h-[50px] hover:opacity-[100%] mt-10"
+          >
+            Ändra bild
+          </button>
+          {showMessage !== "" && <p className=" ml-10 ">{showMessage}</p>}
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ interface IcheckBox {
   setFormDataState: (formDataState: Ianswear[]) => void;
   isDisable: boolean;
 }
-//TODO byta till radio buttons för att bara kunna välja en??
+
 const CheckBoxForm = ({
   checkBox,
   index,
