@@ -4,6 +4,7 @@ import admin from "firebase-admin";
 import serviceAccount from "./journal-service-key.json" assert { type: "json" };
 
 // Initialisera Firebase Admin SDK med service account
+//TODO kolla så att det skapas fyra nya och bara dom tomma tas bort.
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -108,7 +109,7 @@ app.post("/create-form", async (req, res) => {
 });
 
 // Schemalägg en uppgift som körs varje dag vid midnatt
-cron.schedule("* * * * *", () => {
+cron.schedule("0 6 * * *", () => {
   createForms();
   removeForms();
 });

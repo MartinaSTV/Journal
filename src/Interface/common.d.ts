@@ -1,5 +1,5 @@
 interface Ianswear {
-  qustion: any;
+  question: any;
   questionOne: IQuestionOne;
   subquestions: ISubquestions[];
 }
@@ -21,15 +21,23 @@ interface IresponseForm {
 interface IformData {
   userId: string;
   date: string;
-  answer: Ianswear;
+  answer: Ianswear[];
   title: string;
   time: string;
   show: string;
   finalised: boolean;
+  dateTimestamp: any;
 }
 interface IUserData {
   userName: string;
   userId: string;
   forms: [];
   ImgUrl: string;
+}
+
+interface IformattedCompilation {
+  month: { name: string; valueM: string };
+  formData: IresponseForm[];
+  averageValue: number;
+  anxValues: number[] | [];
 }

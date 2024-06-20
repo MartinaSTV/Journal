@@ -41,7 +41,6 @@ const Form = () => {
 
   const formId = data.state.formData.formId;
   const isDisableT = data.state.formData.formdata.finalised;
-  console.log(formId);
 
   useEffect(() => {
     sessionStorage.setItem("formDataState", JSON.stringify(formDataState));
@@ -111,11 +110,11 @@ const Form = () => {
       >
         {Questions.map((question, idxForm) => (
           <div className="flex flex-col pt-10 pb-10" key={idxForm + "Form"}>
-            <h2 className="text-xl ml-5 font-medium">{question.qustion}</h2>
-            {question.qustion === "Hur är din ångest/oro nu?" ? (
+            <h2 className="text-xl ml-5 font-medium">{question.question}</h2>
+            {question.question === "Hur är din ångest/oro nu?" ? (
               <DropDown
                 value={value}
-                type={question.qustion}
+                type={question.question}
                 data={smileys}
                 formDataState={formDataState}
                 idxForm={idxForm}

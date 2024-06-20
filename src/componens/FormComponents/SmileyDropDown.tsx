@@ -33,14 +33,14 @@ const DropDown = ({
 
   useEffect(() => {
     const smiley = data.find(
-      (data) => data.textValue === formDataState[idxForm]?.qustion
+      (data) => data.textValue === formDataState[idxForm]?.question
     );
     setChosenSmiley(smiley || undefined);
   }, [formDataState, idxForm, data]);
 
   const saveSmileytoDatabase = (smiley: ISmiley) => {
     const updatedFormDataState = [...formDataState];
-    updatedFormDataState[idxForm].qustion = smiley.textValue;
+    updatedFormDataState[idxForm].question = smiley.textValue;
     saveFromAnswers(updatedFormDataState);
     setFormDataState([...updatedFormDataState]);
   };

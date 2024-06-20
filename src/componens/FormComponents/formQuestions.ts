@@ -1,5 +1,5 @@
 const Questions = [
-  { qustion: "Hur är din ångest/oro nu?" },
+  { question: "Hur är din ångest/oro nu?" },
   {
     qustion: "Vilka känslor känner jag nu?",
     subquestions: [

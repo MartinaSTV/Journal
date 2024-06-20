@@ -18,7 +18,7 @@ const localStorageEffect =
 
 const UserDataAtom = atom<IUserData>({
   key: "informationUser",
-  default: { userName: "", userId: "", forms: [], imgUrl: "" },
+  default: { userName: "", userId: "", forms: [], ImgUrl: "" },
   effects: [localStorageEffect("DataUserInformation")],
 });
 export default UserDataAtom;
