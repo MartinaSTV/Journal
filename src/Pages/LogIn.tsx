@@ -5,17 +5,22 @@ import { useNavigate } from "react-router-dom";
 import Token from "../atoms/Token";
 import letter from "../assets/Icons/material-symbols_mail-outline.svg";
 import lock from "../assets/Icons/lock.svg";
-import { createUserAccount, logInAccount } from "../Service/LoginService";
+import {
+  createUserAccount,
+  logInAccount,
+  resetPasswordSendMail,
+} from "../Service/LoginService";
 import Loading from "../componens/Loading";
 
+// TODO reset password btn and function fix
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
   const [, setToken] = useRecoilState(Token);
-  //const [, setAllUserData] = useRecoilState(UserDataAtom);
   const [type, setType] = useState(false);
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
+  const [resetPassword, setResetPassword] = useState("");
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
@@ -63,7 +68,7 @@ const LogIn = () => {
       </button>
       <div className="w-screen flex mt-20 ">
         <h1 className=" text-white m-auto text-4xl font-normal  md:text-5xl md:mr-auto md:mr-auto ">
-          Ångest Dagbok
+          Hur mår du?
         </h1>
       </div>
       {ErrMsg !== "" && (
@@ -82,7 +87,6 @@ const LogIn = () => {
             <label className="ml-2 " htmlFor={`username+${type}`}>
               Emailadress
               <span className="font-light text-xs ml-2">
-                {" "}
                 ex: namn@gmail.com
               </span>
             </label>
@@ -117,6 +121,20 @@ const LogIn = () => {
             placeholder="Lösenord"
           />
         </div>
+
+        <button
+          onClick={() => {
+            console.log("klick");
+            resetPasswordSendMail(username, setResetPassword);
+          }}
+          className="mt-5 mb-5 border rounded w-[173px] h-[40px]"
+        >
+          Glömt lösenord
+        </button>
+        {resetPassword !== "" && (
+          <p className="ml-5font-light">{resetPassword}</p>
+        )}
+
         <button
           type="submit"
           className=" shadow bg-white text-black rounded w-[173px] h-[55px] mt-10 ml-auto"

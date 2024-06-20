@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import User from "../atoms/user";
 import { deleteForm, getForms } from "../Service/allformService";
 import { onChangeAuth } from "../Service/LoginService";
 import UserAtom from "../atoms/user";
@@ -10,10 +9,9 @@ import AllFormsBtn from "../componens/AllFormsBtn";
 import MenuBottomBar from "../componens/MenyBottomBar";
 
 const AllJournals = () => {
-  const [userId] = useRecoilState(User);
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [allFormsCopy, setAllFormsCopy] = useState<IresponseForm[]>([]);
-  const [, setUserId] = useRecoilState(UserAtom);
+  const [userId, setUserId] = useRecoilState(UserAtom);
   const [fromDate, setFromDate] = useState<Date>(new Date());
   const [toDate, setToDate] = useState<Date>(new Date());
   const [update, setUpdate] = useState("");
@@ -27,6 +25,7 @@ const AllJournals = () => {
         const isFinalised = forms.filter(
           (data) => data.formdata.finalised === true
         );
+
         setAllForms([...isFinalised]);
         setAllFormsCopy([...isFinalised]);
       }
@@ -59,7 +58,7 @@ const AllJournals = () => {
 
   return (
     <section
-      className="flex flex-col max-w-[1500px] ml-auto mr-auto relative "
+      className="flex flex-col max-w-[1500px] ml-auto mr-auto relative min-h-[100vh] "
       style={{
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -72,7 +71,7 @@ const AllJournals = () => {
       <h1 className="text-white text-4xl font-normal mt-10 ml-5 max-w-[300px] md:text-5xl md:max-w-full ">
         Dina dagboksinlägg
       </h1>
-      <article className="flex flex-col ml-5 mr-5 mb-10 mt-10 text-white font-medium md:flex-row md:items-center">
+      <article className="flex flex-col ml-5 mr-5 mb-10 mt-10 text-white  font-medium md:flex-row md:items-center">
         <div className="flex flex-col w-[213px]">
           <label htmlFor="fromDate">Från datum</label>
           <input

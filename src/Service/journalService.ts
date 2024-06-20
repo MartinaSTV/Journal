@@ -52,10 +52,9 @@ const getTodaysForms = async (
 const updateIsFinalised = async (formId: string) => {
   const JournalRef = doc(db, "JournalForm", `${formId}`);
   try {
-    const res = await updateDoc(JournalRef, {
+    await updateDoc(JournalRef, {
       finalised: true,
     });
-    console.log(res);
   } catch (error) {
     console.log(error);
   }
@@ -72,4 +71,15 @@ const updateFormAnswer = async (formId: string, answer: Ianswear[]) => {
   }
 };
 
-export { getTodaysForms, updateIsFinalised, updateFormAnswer };
+const getUserData = async (userId: string) => {
+  const userRef = query(collection(db, "users"), where("userId", "==", userId));
+  try {
+    const user = await getDocs(userRef);
+    const data = user.docs[0].data() as IUserData;
+
+    return data;
+  } catch (error) {
+    console.log("kunde inte hämta användare information");
+  }
+};
+export { getTodaysForms, updateIsFinalised, updateFormAnswer, getUserData };

@@ -22,7 +22,6 @@ const Textfields = ({
   isDisable,
 }: Iinput) => {
   const [defaultV, setDefaultV] = useState<string>("");
-  console.log(isDisable);
 
   useEffect(() => {
     let defaultValue: string = "";

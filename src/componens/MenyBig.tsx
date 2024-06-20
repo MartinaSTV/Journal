@@ -27,7 +27,7 @@ const MenuBig = () => {
   return (
     <header className="flex text-white items-center bg-black opacity-85 w-full hidden md:flex ">
       <div className="flex items-center m-5">
-        <h1 className=" text-[30px] font-medium">Ångestdagboken</h1>
+        <h1 className=" text-[30px] font-medium">Läget?</h1>
       </div>
       <nav className="flex max-w-[800px] ml-auto mr-5">
         {pages.map((pages, idx) => (

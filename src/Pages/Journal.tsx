@@ -9,23 +9,33 @@ import FormExistButton from "../componens/FormExistButton";
 import UserAtom from "../atoms/user";
 import Loading from "../componens/Loading";
 import UserDataAtom from "../atoms/userData";
+import { getUserData } from "../Service/journalService";
+import defaultImg from "../assets/cartoon-character-with-handbag-sunglasses(1).jpg";
 
 const JournalLandingPage = () => {
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
   const [userId, setUserId] = useRecoilState(UserAtom);
-  const [allUserData] = useRecoilState(UserDataAtom);
   const [update] = useState(new Date());
   const [loading, setloading] = useState(false);
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
+  const [userData, setUserData] = useRecoilState(UserDataAtom);
+
   onChangeAuth(setUserId);
 
   useEffect(() => {
-    console.log(userId);
     if (userId) {
       getTodaysFormsData();
+      userDataFetch();
     }
     sessionStorage.setItem("formDataState", JSON.stringify(""));
   }, [userId, update]);
+
+  const userDataFetch = async () => {
+    try {
+      const data = await getUserData(userId);
+      if (data) setUserData(data);
+    } catch (error) {}
+  };
 
   const getTodaysFormsData = async () => {
     setloading(true);
@@ -66,11 +76,18 @@ const JournalLandingPage = () => {
       }}
     >
       <MenuBig />
-      <h1 className="text-white text-4xl font-normal mt-10 ml-5 md:text-5xl ">
-        Hem
-      </h1>
+      <div className="flex">
+        <h1 className="text-white text-4xl font-normal mt-10 ml-5 max-w-[339px] md:text-5xl md:max-w-full ">
+          Hem
+        </h1>
+        <img
+          src={userData.ImgUrl || defaultImg}
+          alt="profil bild"
+          className="w-[90px] ml-auto mr-10 mt-5 rounded-full shadow-md"
+        />
+      </div>
       <div className="m-5 text-[#F5F5F5] max-w-[339px] md:mr-auto md:ml-auto">
-        <p className="font-semibold ">Hej {allUserData.userName}</p>
+        <p className="font-semibold ">Hej {userData.userName}</p>
         <p className="">
           Fyll i din dagbok genom att klicka nedanför. Fyll i ett formulär i
           taget. Du kan se på klockslaget när formuläret öppnas och kan fyllas

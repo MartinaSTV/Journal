@@ -19,6 +19,6 @@ const localStorageEffect =
 const UserAtom = atom<string>({
   key: "userDataStorage",
   default: "",
-  effects: [localStorageEffect("userEffect")],
+  effects: [localStorageEffect("userEffectData")],
 });
 export default UserAtom;

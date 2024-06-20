@@ -16,13 +16,9 @@ const localStorageEffect =
     });
   };
 
-interface IUserData {
-  userName: string;
-}
-
 const UserDataAtom = atom<IUserData>({
-  key: "allUserDataStorage",
-  default: { userName: "" },
-  effects: [localStorageEffect("userEffectDataUser")],
+  key: "informationUser",
+  default: { userName: "", userId: "", forms: [], ImgUrl: "" },
+  effects: [localStorageEffect("DataUserInformation")],
 });
 export default UserDataAtom;

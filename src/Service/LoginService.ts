@@ -4,14 +4,17 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { app, db } from "../Service/Firebase";
 import { addDoc, collection } from "firebase/firestore";
+import defaulImg from "../assets/cartoon-character-with-handbag-sunglasses(1).jpg";
 
 interface IuserData {
   userName: string;
   userId: string;
   forms: string[];
+  imgUrl: string;
 }
 
 const createUserAccount = async (
@@ -33,6 +36,7 @@ const createUserAccount = async (
       userName: email,
       userId: user.uid,
       forms: [],
+      imgUrl: defaulImg,
     };
     const accessToken = await user.getIdToken();
     saveUserToDb(userData);
@@ -47,12 +51,9 @@ const createUserAccount = async (
 };
 
 const saveUserToDb = async (userData: IuserData) => {
-  console.log(userData);
   try {
     const resp = await addDoc(collection(db, "users"), userData);
     console.log(resp, "added user to db");
-
-    //spara id globalt kan få tag på id på User
   } catch (error) {
     console.log("Error", error);
   }
@@ -73,6 +74,7 @@ const logInAccount = async (
     const user = userCredential.user;
     const accessToken = await user.getIdToken();
     setToken(accessToken);
+
     return accessToken;
   } catch (error: any) {
     const errorCode = error.code;
@@ -110,4 +112,35 @@ const logOut = async (setAndNavigate: () => void) => {
     });
 };
 
-export { createUserAccount, logInAccount, onChangeAuth, logOut };
+const resetPasswordSendMail = (
+  email: string,
+  setResetPassword: (msg: string) => void
+) => {
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      setResetPassword(
+        "Länk skickat till din mail för att återställa ditt lösenord"
+      );
+      setTimeout(() => {
+        setResetPassword("");
+      }, 2000);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setResetPassword("Kunde inte återställa ditt lösenord");
+      setTimeout(() => {
+        setResetPassword("");
+      }, 2000);
+    });
+};
+
+export {
+  createUserAccount,
+  logInAccount,
+  onChangeAuth,
+  logOut,
+  resetPasswordSendMail,
+};

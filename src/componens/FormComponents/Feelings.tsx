@@ -33,11 +33,11 @@ const Feelings = ({
     if (
       formDataState &&
       formDataState[idxForm] &&
-      formDataState[idxForm].qustion
+      formDataState[idxForm].question
     ) {
       let foundFeeling = null;
       for (let i = 0; i < smileys.length; i++) {
-        if (smileys[i].text === formDataState[idxForm].qustion) {
+        if (smileys[i].text === formDataState[idxForm].question) {
           foundFeeling = { feelingC: smileys[i].text, idx: i };
           break;
         }
@@ -51,7 +51,7 @@ const Feelings = ({
 
   const saveSmileytoDatabase = (smiley: string) => {
     const updatedFormDataState = [...formDataState];
-    updatedFormDataState[idxForm].qustion = smiley;
+    updatedFormDataState[idxForm].question = smiley;
     saveFromAnswers(updatedFormDataState);
     setFormDataState([...updatedFormDataState]);
   };
