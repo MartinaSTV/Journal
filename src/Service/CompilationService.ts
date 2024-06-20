@@ -2,11 +2,9 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
   const chosenF = [...chosenFormsYear];
   const Months: IformattedCompilation[] = [];
 
+  // skap ett object för varje månad som finns och skapa namn på månad
   for (let i = 0; i < chosenF.length; i++) {
-    // skap ett object för varje månad som finns och skapa namn på månad
-
     const monthName = getMonth(Number(chosenF[i].formdata.date.split("-")[1]));
-
     // Kontrollera om månaden redan finns i Months-arrayen
     let foundMonth = false;
     for (let j = 0; j < Months.length; j++) {
@@ -19,7 +17,7 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
     if (!foundMonth) {
       const month = {
         month: monthName,
-        formData: [], // här skall alla formulär för den månaden finnas med
+        formData: [], // här skall alla formulär för den månaden läggas in
         averageValue: 0,
         anxValues: [],
       };
@@ -43,11 +41,9 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
       anxietyValues.push(value);
     }
     Months[i].anxValues = anxietyValues;
-
     const average = getAverage(anxietyValues);
     Months[i].averageValue = average;
   }
-  console.log(Months);
   return Months;
 };
 

@@ -7,7 +7,12 @@ import { useRecoilState } from "recoil";
 import User from "../atoms/user";
 import { getForms } from "../Service/allformService";
 import { formatData } from "../Service/CompilationService";
+import Months from "../componens/CompilationJournalComponents/Months";
+import chartIcon from "../assets/Icons/chartIcon.svg";
 
+//TODO on click visa diagram
+// TODO on click på månad visa alla data för månaden
+// TODO refraktorera
 const CompilationJournal = () => {
   const [userId, setUserId] = useRecoilState(User);
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
@@ -75,32 +80,49 @@ const CompilationJournal = () => {
         <div className="flex flex-col mt-10">
           <label
             htmlFor="year"
-            className="ml-5 rounded h-[40px]  w-[200px] bg-white text-black"
+            className={`ml-5 h-[40px] font-bold w-[100px] hover:bg-white text-black  flex items-center justify-center bg-[#F5F5F5] ${
+              opendYears ? "rounded-t" : " rounded"
+            }`}
             onClick={() => {
               setOpendYears(!opendYears);
             }}
           >
             Välj år
           </label>
-          {opendYears &&
-            years.map((y, idx) => (
-              <button
-                key={idx}
-                className="mr-auto ml-5"
-                id={`year ${idx}`}
-                onClick={() => {
-                  formateData(y);
-                }}
-              >
-                {y}
-              </button>
-            ))}
+          <div className="flex flex-col">
+            {opendYears &&
+              years.map((y, idx) => (
+                <button
+                  key={idx}
+                  className={`mr-auto ml-5 flex  text-black items-center justify-center w-[100px]  ${
+                    idx % 2 === 0 ? "bg-white" : "bg-[#F5F5F5]"
+                  }`}
+                  id={`year ${idx}`}
+                  onClick={() => {
+                    formateData(y);
+                    setOpendYears(false);
+                  }}
+                >
+                  {y}
+                </button>
+              ))}
+          </div>
         </div>
+        {allFormsChosen.length > 0 &&
+          allFormsChosen[0] &&
+          allFormsChosen[0].formData.length > 0 && (
+            <div className="flex items-center">
+              <h2 className="ml-5 text-xl font-medium mt-10">
+                {allFormsChosen[0].formData[0].formdata?.date.split("-")[0]}
+              </h2>
+              <button className="hover:bg-white bg-[#F5F5F5] h-[40px] w-[50px] rounded-md ml-auto mr-10 mt-auto flex items-center justify-center">
+                <img src={chartIcon} alt="Ikon diagram" />
+              </button>
+            </div>
+          )}
 
         {allFormsChosen.map((chosenMonth, idx) => (
-          <button key={idx + "month"}>
-            <h2>{chosenMonth.month.name}</h2>
-          </button>
+          <Months key={idx + "Months"} chosenMonth={chosenMonth} />
         ))}
       </article>
       <section className="w-full sticky bottom-0 block md:hidden">

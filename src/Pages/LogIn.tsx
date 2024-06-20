@@ -12,7 +12,7 @@ import {
 } from "../Service/LoginService";
 import Loading from "../componens/Loading";
 
-// TODO reset password btn and function
+// TODO reset password btn and function fix
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
@@ -21,7 +21,6 @@ const LogIn = () => {
   const [ErrMsg, setErrMsg] = useState("");
   const [loading, setloading] = useState(false);
   const [resetPassword, setResetPassword] = useState("");
-  const [mailToReset, setMailToReset] = useState("");
   const navigate = useNavigate();
 
   const handelOnLogIn = async () => {
