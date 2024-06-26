@@ -20,6 +20,7 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
         formData: [], // här skall alla formulär för den månaden läggas in
         averageValue: 0,
         anxValues: [],
+        days: [], // här skall alla dagar finnas och deras fomulär
       };
       Months.push(month);
 
@@ -34,7 +35,7 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
   // lägg till averageValue för varje månad på ångest samt en lista med ångest niveåerna för det året
 
   for (let i = 0; i < Months.length; i++) {
-    const anxietyValues: number[] = [4, 4];
+    const anxietyValues: number[] = [];
     const forms = Months[i].formData;
     for (let j = 0; j < forms.length; j++) {
       const value = getValueNumber(forms[j].formdata.answer[0].question);
@@ -43,7 +44,39 @@ const formatData = (chosenFormsYear: IresponseForm[]) => {
     Months[i].anxValues = anxietyValues;
     const average = getAverage(anxietyValues);
     Months[i].averageValue = average;
+
+    // lägg in days per månad med averagevalue day samt datum.
+    const getDays: string[] = [];
+
+    for (let k = 0; k < Months[i].formData.length; k++) {
+      // Kontrollera om datumet redan finns i getDays
+      if (
+        !getDays.some((date) => date === Months[i].formData[k].formdata.date)
+      ) {
+        getDays.push(Months[i].formData[k].formdata.date);
+      }
+    }
+
+    getDays.forEach((date) => {
+      const valuesAnxDays: number[] = [];
+      const day = {
+        month: Months[i].month,
+        date: date,
+        avergeValueDay: 0,
+        formsDay: Months[i].formData.filter(
+          (forms) => forms.formdata.date === date
+        ),
+      };
+      day.formsDay.forEach((form) => {
+        const toNumber = getValueNumber(form.formdata.answer[0].question);
+        valuesAnxDays.push(toNumber);
+      });
+      const averageValueD = getAverage(valuesAnxDays);
+      day.avergeValueDay = averageValueD;
+      Months[i].days.push(day);
+    });
   }
+
   return Months;
 };
 

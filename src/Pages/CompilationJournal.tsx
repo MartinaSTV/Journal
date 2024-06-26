@@ -8,19 +8,22 @@ import User from "../atoms/user";
 import { getForms } from "../Service/allformService";
 import { formatData } from "../Service/CompilationService";
 import Months from "../componens/CompilationJournalComponents/Months";
-import chartIcon from "../assets/Icons/chartIcon.svg";
+import YearDropDown from "../componens/CompilationJournalComponents/YearDropDown";
+import Chart from "../componens/CompilationJournalComponents/Chart";
+import ButtonChart from "../componens/CompilationJournalComponents/ButtonChart";
 
 //TODO on click visa diagram
 // TODO on click på månad visa alla data för månaden
-// TODO refraktorera
+
 const CompilationJournal = () => {
   const [userId, setUserId] = useRecoilState(User);
   const [allForms, setAllForms] = useState<IresponseForm[]>([]);
+  const [allFormsCopy, setAllFormsCopy] = useState<IformattedCompilation[]>([]);
   const [allFormsChosen, setAllFormsChosen] = useState<IformattedCompilation[]>(
     []
   );
-  const [opendYears, setOpendYears] = useState(false);
   const [years, setYears] = useState<string[]>([]);
+  const [opendChart, setOpendChart] = useState(false);
   onChangeAuth(setUserId);
 
   useEffect(() => {
@@ -58,7 +61,44 @@ const CompilationJournal = () => {
       });
 
     const formattedData = formatData(chosenForms);
+    setAllFormsCopy([...formattedData]);
     setAllFormsChosen([...formattedData]);
+  };
+
+  const chartData = {
+    labels: allFormsCopy.map((data) => data.month.name),
+    datasets: [
+      {
+        label: "Ångest medelvärde",
+        data: allFormsCopy.map((data) => data.averageValue),
+        backgroundColor: [
+          "#0F69BD",
+          "#ecf0f1",
+          "#50AF95",
+          "#f3ba2f",
+          "#2a71d0",
+        ],
+        borderColor: "black",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: false,
+        min: 1,
+        max: 10,
+        ticks: {
+          stepSize: 1, // Stegstorleken för varje tick
+        },
+      },
+    },
+  };
+
+  const OnClickChart = () => {
+    setOpendChart(!opendChart);
   };
 
   return (
@@ -77,37 +117,7 @@ const CompilationJournal = () => {
         Sammanställning
       </h1>
       <article className="text-white flex flex-col min-h-[100vh]">
-        <div className="flex flex-col mt-10">
-          <label
-            htmlFor="year"
-            className={`ml-5 h-[40px] font-bold w-[100px] hover:bg-white text-black  flex items-center justify-center bg-[#F5F5F5] ${
-              opendYears ? "rounded-t" : " rounded"
-            }`}
-            onClick={() => {
-              setOpendYears(!opendYears);
-            }}
-          >
-            Välj år
-          </label>
-          <div className="flex flex-col">
-            {opendYears &&
-              years.map((y, idx) => (
-                <button
-                  key={idx}
-                  className={`mr-auto ml-5 flex  text-black items-center justify-center w-[100px]  ${
-                    idx % 2 === 0 ? "bg-white" : "bg-[#F5F5F5]"
-                  }`}
-                  id={`year ${idx}`}
-                  onClick={() => {
-                    formateData(y);
-                    setOpendYears(false);
-                  }}
-                >
-                  {y}
-                </button>
-              ))}
-          </div>
-        </div>
+        <YearDropDown years={years} formateData={formateData} />
         {allFormsChosen.length > 0 &&
           allFormsChosen[0] &&
           allFormsChosen[0].formData.length > 0 && (
@@ -115,12 +125,16 @@ const CompilationJournal = () => {
               <h2 className="ml-5 text-xl font-medium mt-10">
                 {allFormsChosen[0].formData[0].formdata?.date.split("-")[0]}
               </h2>
-              <button className="hover:bg-white bg-[#F5F5F5] h-[40px] w-[50px] rounded-md ml-auto mr-10 mt-auto flex items-center justify-center">
-                <img src={chartIcon} alt="Ikon diagram" />
-              </button>
+              <ButtonChart OnClickChart={OnClickChart} />
             </div>
           )}
-
+        {opendChart && (
+          <Chart
+            setOpendChart={setOpendChart}
+            chartData={chartData}
+            options={options}
+          />
+        )}
         {allFormsChosen.map((chosenMonth, idx) => (
           <Months key={idx + "Months"} chosenMonth={chosenMonth} />
         ))}

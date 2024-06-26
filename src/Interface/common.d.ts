@@ -40,4 +40,25 @@ interface IformattedCompilation {
   formData: IresponseForm[];
   averageValue: number;
   anxValues: number[] | [];
+  days: Idays[];
+}
+
+interface Idays {
+  month: { name: string; valueM: string };
+  date: string;
+  avergeValueDay: number;
+  formsDay: IresponseForm[];
+}
+
+interface Ioptions {
+  scales: {
+    y: {
+      beginAtZero: boolean;
+      min: number;
+      max: number;
+      ticks: {
+        stepSize: number;
+      };
+    };
+  };
 }
