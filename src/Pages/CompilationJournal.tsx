@@ -12,7 +12,6 @@ import YearDropDown from "../componens/CompilationJournalComponents/YearDropDown
 import Chart from "../componens/CompilationJournalComponents/Chart";
 import ButtonChart from "../componens/CompilationJournalComponents/ButtonChart";
 
-//TODO on click visa diagram
 // TODO on click på månad visa alla data för månaden
 
 const CompilationJournal = () => {
