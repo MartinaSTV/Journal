@@ -5,7 +5,7 @@ import checkmark from "../../assets/checkedMark.svg";
 interface IcheckBox {
   checkBox: string;
   index: number;
-  formDataState: Ianswear[];
+  formDataState: any[];
   idxSubquestions: number;
   idxForm: number;
   saveFromAnswers: (answers: Ianswear[]) => Promise<void>;

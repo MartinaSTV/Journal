@@ -16,19 +16,21 @@ const Months = ({ chosenMonth }: IMonths) => {
   };
 
   return (
-    <article>
+    <>
       <button
         onClick={() => {
           setOpendButton(!opendbutton);
         }}
-        className="ml-5 border text-black max-w-[339px] h-[70px]  flex items-center bg-[#F5F5F5] rounded text-xl font-medium md:w-[339px] hover:bg-white "
+        className={`ml-5 mr-5 mt-5 border text-black h-[70px] max-w-[1500px] flex items-center bg-[#F5F5F5] text-xl font-medium hover:bg-white ${
+          opendbutton ? "border-none rounded-t" : "rounded"
+        }`}
       >
         <h3 className="ml-10">{chosenMonth?.month.name}</h3>
         <p className="ml-auto">{chosenMonth.averageValue}</p>
         <img className="mr-5 ml-5" src={getSmiley()} alt="Smiley gubbe " />
       </button>
       {opendbutton && <Days chosenMonth={chosenMonth} />}
-    </article>
+    </>
   );
 };
 export default Months;

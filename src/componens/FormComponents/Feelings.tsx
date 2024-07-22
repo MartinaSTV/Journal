@@ -51,7 +51,7 @@ const Feelings = ({
 
   const saveSmileytoDatabase = (smiley: string) => {
     const updatedFormDataState = [...formDataState];
-    updatedFormDataState[idxForm].question = smiley;
+    updatedFormDataState[idxForm].qustion = smiley;
     saveFromAnswers(updatedFormDataState);
     setFormDataState([...updatedFormDataState]);
   };
