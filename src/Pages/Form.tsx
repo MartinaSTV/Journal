@@ -18,6 +18,7 @@ import { useRecoilState } from "recoil";
 import UserAtom from "../atoms/user";
 import { useNavigate } from "react-router-dom";
 
+//TODO fixa any på rad 40
 const Form = () => {
   const [, setUserId] = useRecoilState(UserAtom);
   onChangeAuth(setUserId);
@@ -37,7 +38,7 @@ const Form = () => {
     JSON.parse(sessionStorage.getItem("formDataState") as string) ||
     data.state.formData.formdata.answer;
   const [formDataState, setFormDataState] =
-    useState<Ianswear[]>(initialFormDataState);
+    useState<any[]>(initialFormDataState);
 
   const formId = data.state.formData.formId;
   const isDisableT = data.state.formData.formdata.finalised;
@@ -59,7 +60,7 @@ const Form = () => {
     idxSubquestions: number
   ) => {
     const newValue = e.target.value;
-    const updatedFormDataState: any = [...formDataState];
+    const updatedFormDataState = [...formDataState];
 
     updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
       newValue;
