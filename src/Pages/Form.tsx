@@ -60,8 +60,20 @@ const Form = () => {
   ) => {
     const newValue = e.target.value;
     const updatedFormDataState = [...formDataState];
-    updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
-      newValue;
+
+    if (
+      updatedFormDataState[idxForm] &&
+      updatedFormDataState[idxForm].subquestions
+    ) {
+      if (
+        updatedFormDataState[idxForm].subquestions[idxSubquestions] &&
+        updatedFormDataState[idxForm].subquestions[idxSubquestions]
+          .textfield !== undefined
+      ) {
+        updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
+          newValue;
+      }
+    }
 
     setFormDataState([...updatedFormDataState]);
     saveFromAnswers(updatedFormDataState);
@@ -181,7 +193,7 @@ const Form = () => {
                             onblurTextArea(e, idxForm, idxSubquestions);
                           }}
                           defaultValue={
-                            formDataState[idxForm]?.subquestions[
+                            formDataState[idxForm]?.subquestions?.[
                               idxSubquestions
                             ]?.textfield || ""
                           }

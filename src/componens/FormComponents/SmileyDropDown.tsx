@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 interface Itext {
   value: { text: string; value: string };
-  type: string;
+  type: string | undefined;
   data: ISmiley[];
   formDataState: Ianswear[];
   idxForm: number;

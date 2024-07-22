@@ -1,5 +1,5 @@
 interface Ianswear {
-  question: any;
+  question: string;
   qustion: string;
   questionOne: IQuestionOne;
   subquestions?: ISubquestions[];
