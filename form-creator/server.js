@@ -109,7 +109,7 @@ app.post("/create-form", async (req, res) => {
 });
 
 // Schemalägg en uppgift som körs varje dag vid midnatt
-cron.schedule("0 6 * * *", () => {
+cron.schedule("* * * * *", () => {
   createForms();
   removeForms();
 });

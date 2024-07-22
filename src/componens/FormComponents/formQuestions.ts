@@ -1,4 +1,4 @@
-const Questions = [
+const Questions: IQuestion2[] = [
   { question: "Hur är din ångest/oro nu?" },
   {
     qustion: "Vilka känslor känner jag nu?",

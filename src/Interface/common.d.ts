@@ -1,5 +1,6 @@
 interface Ianswear {
   question: any;
+  qustion: string;
   questionOne: IQuestionOne;
   subquestions: ISubquestions[];
 }
@@ -61,4 +62,21 @@ interface Ioptions {
       };
     };
   };
+}
+
+interface ITextField2 {
+  textfield: string;
+}
+
+interface ISubquestion2 {
+  subquestion: string;
+  checkBox?: string[];
+  textfield?: string;
+  textfields?: ITextField2[];
+}
+
+interface IQuestion2 {
+  qustion?: string;
+  question?: string;
+  subquestions?: ISubquestion2[];
 }

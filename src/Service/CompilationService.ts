@@ -144,4 +144,58 @@ const getAverage = (values: number[]) => {
   return Math.round(average);
 };
 
-export { formatData };
+//TODO lägg in amswear
+const addAnsweToQuestionfunc = (
+  data: IresponseForm,
+  Questions: IQuestion2[]
+) => {
+  const questCopy = [...Questions];
+
+  const answeAndQuestions = [
+    {
+      question: questCopy[0]?.question,
+      answ: data.formdata.answer[0].question,
+    },
+    { question: questCopy[1]?.qustion, answ: "" },
+    {
+      question: questCopy[1]?.subquestions?.[0]?.subquestion,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[1]?.subquestion,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[1]?.textfield,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.subquestion,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.textfields?.[0].textfield,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.textfields?.[1].textfield,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.textfields?.[2].textfield,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.textfields?.[3].textfield,
+      answ: "",
+    },
+    {
+      question: questCopy[1]?.subquestions?.[2]?.textfields?.[4].textfield,
+      answ: "",
+    },
+  ];
+
+  return answeAndQuestions;
+};
+
+export { formatData, addAnsweToQuestionfunc };
