@@ -59,21 +59,10 @@ const Form = () => {
     idxSubquestions: number
   ) => {
     const newValue = e.target.value;
-    const updatedFormDataState = [...formDataState];
+    const updatedFormDataState: any = [...formDataState];
 
-    if (
-      updatedFormDataState[idxForm] &&
-      updatedFormDataState[idxForm].subquestions
-    ) {
-      if (
-        updatedFormDataState[idxForm].subquestions[idxSubquestions] &&
-        updatedFormDataState[idxForm].subquestions[idxSubquestions]
-          .textfield !== undefined
-      ) {
-        updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
-          newValue;
-      }
-    }
+    updatedFormDataState[idxForm].subquestions[idxSubquestions].textfield =
+      newValue;
 
     setFormDataState([...updatedFormDataState]);
     saveFromAnswers(updatedFormDataState);
