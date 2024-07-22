@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 interface Iinput {
   input: { textfield: string };
-  formDataState: Ianswear[];
+  formDataState: any[];
   idx: number;
   idxForm: number;
   idxSubquestions: number;
