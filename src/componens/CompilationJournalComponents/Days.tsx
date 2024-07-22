@@ -57,6 +57,7 @@ const Days = ({ chosenMonth }: IDays) => {
     setOpendChart(!opendChart);
   };
 
+  //TODO fix button style and click index
   return (
     <article className="ml-5 bg-[#F5F5F5] pt-5 max-w-[1500px] mr-5 mb-5">
       <ButtonChart OnClickChart={OnClickChart} />
@@ -87,7 +88,7 @@ const Days = ({ chosenMonth }: IDays) => {
                   }`}
                 >
                   <p className="ml-5">{form.formdata.title}</p>
-                  <p className="ml-auto mr-5 ">visa mer</p>
+                  <p className="ml-auto mr-5 "> visa mer</p>
                 </button>
                 {showAnswersDay.idx === index &&
                   showAnswersDay.opend &&
