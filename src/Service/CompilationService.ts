@@ -144,7 +144,6 @@ const getAverage = (values: number[]) => {
   return Math.round(average);
 };
 
-//TODO lägg in amswear
 const addAnsweToQuestionfunc = (
   data: IresponseForm,
   Questions: IQuestion2[]
@@ -156,42 +155,56 @@ const addAnsweToQuestionfunc = (
       question: questCopy[0]?.question,
       answ: data.formdata.answer[0].question,
     },
-    { question: questCopy[1]?.qustion, answ: "" },
+    { question: questCopy[1]?.qustion, answ: data.formdata.answer[1].qustion },
     {
       question: questCopy[1]?.subquestions?.[0]?.subquestion,
-      answ: "",
+      answ: data.formdata.answer[1].question,
     },
     {
       question: questCopy[1]?.subquestions?.[1]?.subquestion,
-      answ: "",
+      answ:
+        data.formdata.answer[1].subquestions?.[1].checkBox
+          ?.filter((checked) => checked !== "")
+          .map((checked) => `${checked}`)
+          .join(", ") || "",
     },
     {
       question: questCopy[1]?.subquestions?.[1]?.textfield,
-      answ: "",
+      answ: data.formdata.answer[1].subquestions?.[1].textfield || "",
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.subquestion,
-      answ: "",
+      answ:
+        data.formdata.answer[1].subquestions?.[2].checkBox
+          ?.filter((checked) => checked !== "")
+          .map((checked) => `${checked}`)
+          .join(", ") || "",
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.textfields?.[0].textfield,
-      answ: "",
+      answ:
+        data.formdata.answer[1].subquestions?.[2].textfields?.[0].textfield ||
+        "",
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.textfields?.[1].textfield,
-      answ: "",
+      answ:
+        data.formdata.answer[1].subquestions?.[2]?.textfields?.[1]?.textfield ||
+        "",
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.textfields?.[2].textfield,
-      answ: "",
+      answ: data.formdata.answer[1].subquestions?.[2].textfields?.[2].textfield,
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.textfields?.[3].textfield,
-      answ: "",
+      answ: data.formdata.answer[1].subquestions?.[2].textfields?.[3].textfield,
     },
     {
       question: questCopy[1]?.subquestions?.[2]?.textfields?.[4].textfield,
-      answ: "",
+      answ:
+        data.formdata.answer[1].subquestions?.[2]?.textfields?.[4]?.textfield ||
+        "",
     },
   ];
 

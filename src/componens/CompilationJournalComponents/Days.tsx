@@ -83,7 +83,7 @@ const Days = ({ chosenMonth }: IDays) => {
                     });
                   }}
                   className={`flex w-[full] items-center border rounded mr-5 h-[40px] mt-5 ${
-                    index % 2 === 0 ? "bg-[#F5F5F5]" : "bg:white"
+                    index % 2 === 1 ? "bg-[#F5F5F5]" : "bg:white"
                   }`}
                 >
                   <p className="ml-5">{form.formdata.title}</p>
