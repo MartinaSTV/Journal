@@ -66,7 +66,7 @@ const LogIn = () => {
       >
         {type ? "Gå tillbaka" : "Skapa nytt konto"}
       </button>
-      <div className="w-screen flex mt-20 ">
+      <div className="flex mt-20">
         <h1 className=" text-white m-auto text-4xl font-normal  md:text-5xl md:mr-auto md:mr-auto ">
           Hur mår du?
         </h1>
@@ -79,12 +79,15 @@ const LogIn = () => {
         onSubmit={(e) => {
           e.preventDefault();
         }}
-        className=" tracking-wide p-5 text-white font-medium flex flex-col max-w-[335px] mt-10 mb-auto md:mr-auto md:ml-auto md:min-w-[400px]"
+        className=" p-5 text-white font-medium flex flex-col max-w-[335px] mt-10 mb-auto md:mr-auto md:ml-auto md:min-w-[400px]"
       >
         <div className="flex flex-col ">
           <div className="flex items-center">
             <img src={letter} alt="Ikon Brev" />
-            <label className="ml-2 " htmlFor={`username+${type}`}>
+            <label
+              className="ml-2 tracking-wider "
+              htmlFor={`username+${type}`}
+            >
               Emailadress
               <span className="font-light text-xs ml-2">
                 ex: namn@gmail.com
@@ -99,13 +102,13 @@ const LogIn = () => {
             type="text"
             id={`username+${type}`}
             placeholder="namn@hotmail.com"
-            className=" pl-2 font-light shadow h-[40px] text-black max-w-[350px] rounded"
+            className=" pl-2 font-light mt-5  shadow h-[40px] text-black max-w-[350px] rounded"
           />
         </div>
         <div className="flex flex-col">
-          <div className="flex items-center mt-5 mb-2">
+          <div className="flex items-center mt-10 mb-2">
             <img src={lock} alt="" />
-            <label className="ml-2" htmlFor="password">
+            <label className="ml-2 tracking-wider" htmlFor="password">
               Lösenord
             </label>
           </div>
@@ -117,22 +120,24 @@ const LogIn = () => {
             required
             type="text"
             id="password"
-            className=" pl-2 font-light text-black shadow h-[40px] max-w-[350px] rounded"
+            className=" pl-2 font-light text-black shadow h-[40px] max-w-[350px] mt-5 rounded"
             placeholder="Lösenord"
           />
         </div>
 
-        <button
-          onClick={() => {
-            console.log("klick");
-            resetPasswordSendMail(username, setResetPassword);
-          }}
-          className="mt-5 mb-5 border rounded w-[173px] h-[40px]"
-        >
-          Glömt lösenord
-        </button>
+        {!type && (
+          <button
+            onClick={() => {
+              console.log("klick");
+              resetPasswordSendMail(username, setResetPassword);
+            }}
+            className="mt-10 mb-5 border rounded w-[173px] h-[40px]"
+          >
+            Glömt lösenord
+          </button>
+        )}
         {resetPassword !== "" && (
-          <p className="ml-5font-light">{resetPassword}</p>
+          <p className="ml-5 font-light">{resetPassword}</p>
         )}
 
         <button
